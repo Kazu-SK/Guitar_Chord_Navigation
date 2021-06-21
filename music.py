@@ -50,6 +50,73 @@ class Music():
         print(self.lyrics_list)
         print(self.chord_list)
 
+
+    def TransposeScale(self,trans_code):
+
+        if trans_code == 'plus':
+
+            tmp = self.trans_scale[0]  
+
+            for i in range(len(self.trans_scale)-2):
+                self.trans_scale[i] = self.trans_scale[i+1]
+
+            self.trans_scale[len(self.trans_scale)-1] = tmp
+
+        elif trans_code == 'minus':
+            tmp = self.trans_scale[len(self.trans_scale)-1]  
+
+            for i in range(len(self.trans_scale)-1, 0, -1):
+               self.trans_scale[i] = self.trans_scale[i-1]
+
+            self.trans_scale[0] = tmp
+
+        else:
+            print('error TransposeChord')
+
+
+    def TransposeChord(self,current_chord):  
+
+        target_list = []
+        target_str = []
+
+
+        if current_chord[len(current_chord)-1] == '#':
+            loop_count = len(current_chord)
+
+
+        for i in range(len(current_chord)):
+
+            if current_chord[i] in standard_scale:
+                #print(current_chord[i])
+
+                if i != len(current_chord)-1: 
+                    if current_chord[i+1] == '#':
+                        target_list.append(current_chord[i])
+                        target_list.append(current_chord[i+1])
+                    else:
+                        target_list.append(current_chord[i])
+                else:
+                    target_list.append(current_chord[i])
+
+
+                target_str = "".join(target_list)
+                trans_num = standard_scale.index(target_str)
+
+                trans_chord.append(self.trans_scale[trans_num])
+
+                target_list = []
+
+            else:
+                trans_chord.append(current_chord[i])
+
+
+        trans_chord = "".join(trans_chord)
+        print(trans_chord)
+
+
+        return trans_chord
+
+
     def GetChord(self,num):
         return self.chord_list[num]
 

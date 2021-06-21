@@ -164,6 +164,14 @@ class MainWindow(ttk.Frame):
             self.low_sound.set_volume(0)
             self.volume_on = False
             self.volume_style.configure('v.TButton',foreground='white',background='black')
+
+    def TransposePlus(self):
+        print('plus')
+        self.music_obj.TransposeScale('plus')
+
+    def TransposeMinus(self):
+        print('minus')
+        self.music_obj.TransposeScale('minus')
         
     def QuitApp(self):
 
@@ -335,13 +343,13 @@ class MainWindow(ttk.Frame):
         #Transposition_plus_button
         button_style = ttk.Style()
         button_style.configure('tp.TButton',foreground='white',background='black')
-        self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = self.SelectMusic,style='tp.TButton')
+        self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = self.TransposePlus,style='tp.TButton')
         self.transposition_plus_button.grid(row = 5, column = 4, padx = 5, pady = 5, sticky = E)
 
         #Transposition_minus_button
         button_style = ttk.Style()
         button_style.configure('tm.TButton',foreground='white',background='black')
-        self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = self.SelectMusic,style='tm.TButton')
+        self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = self.TransposeMinus,style='tm.TButton')
         self.transposition_minus_button.grid(row = 5, column = 3, padx = 5, pady = 5, sticky = W)
 
 
