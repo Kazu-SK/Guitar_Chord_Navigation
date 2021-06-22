@@ -4,6 +4,8 @@
 from tkinter import *
 from tkinter import ttk
 
+from enum import Enum
+
 import threading
 
 
@@ -11,6 +13,10 @@ import os
 import music as m
 
 
+class Sound(Enum):
+    NONE_STATUS = 0
+    TEST_STATUS = 1
+    PLAY_STATUS = 2
 
 
 class MainWindow(ttk.Frame):
@@ -41,6 +47,7 @@ class MainWindow(ttk.Frame):
         self.volume_on = True 
         self.beat_list = [2,3,4,6]
         self.beat_count = 0
+        self.sound_status = Sound.NONE_STATUS 
 
         self.high_sound = pygame.mixer.Sound("sound/piltu3.wav")
         self.low_sound = pygame.mixer.Sound("sound/piltu4.wav")
@@ -140,17 +147,56 @@ class MainWindow(ttk.Frame):
                 time.sleep(beat_time - proofreading_metronome)
                 #print(float(elapsed_time))
 
-    def ClickButton(self):
+    def MetronomeTest(self):
 
-        if self.button_status == False:
+        if self.sound_status == Sound.NONE_STATUS or self.sound_status == Sound.TEST_STATUS:
+            if self.button_status == False:
+                self.button_status = True 
+                self.label_tempo.configure(foreground='#00ff00')
+                self.button_style.configure('m.TButton',foreground='green')
+                self.sound_status = Sound.TEST_STATUS
+            else:
+                self.button_status = False
+                self.label_tempo.configure(foreground='#ffffff')
+                self.button_style.configure('m.TButton',foreground='white')
+                self.beat_count = 0
+                self.sound_status = Sound.NONE_STATUS
+
+    def PlayButton(self):
+
+        if self.sound_status == Sound.TEST_STATUS:
+            self.button_status = False
+            self.working_app = False
+            self.metronome_thread.join()
+
+            self.working_app = True 
+            self.button_status = True 
+            self.beat_count = 0
+            self.button_style.configure('m.TButton',foreground='white')
+            self.label_tempo.configure(foreground='#00ff00')
+            self.button_style.configure('p.TButton',foreground='green',background='black')
+            self.metronome_thread = threading.Thread(target=self.TempoSound)
+            self.metronome_thread.start()
+
+            self.sound_status = Sound.PLAY_STATUS
+
+            print('PlayButton')
+
+        elif self.sound_status == Sound.NONE_STATUS:
             self.button_status = True 
             self.label_tempo.configure(foreground='#00ff00')
-            self.button_style.configure('m.TButton',foreground='green')
-        else:
+            #self.beat_count = 0
+            self.button_style.configure('p.TButton',foreground='green',background='black')
+            self.sound_status = Sound.PLAY_STATUS
+            
+        else: #Sound.PLAY_STATUS
             self.button_status = False
             self.label_tempo.configure(foreground='#ffffff')
-            self.button_style.configure('m.TButton',foreground='white')
+            self.button_style.configure('p.TButton',foreground='white',background='black')
+            self.sound_status = Sound.NONE_STATUS
             self.beat_count = 0
+
+
 
     def VolumeButton(self):
 
@@ -229,7 +275,7 @@ class MainWindow(ttk.Frame):
         #Metronome test Button
         self.button_style = ttk.Style()
         self.button_style.configure('m.TButton',foreground='white',background='black')
-        self.metronome_test_button = ttk.Button(self.main_frame, text = 'metronome_test', command = self.ClickButton,style='m.TButton')
+        self.metronome_test_button = ttk.Button(self.main_frame, text = 'metronome_test', command = self.MetronomeTest,style='m.TButton')
         self.metronome_test_button.grid(row = 4, column = 6, padx = 5, pady = 5,sticky = (N, E, W, S))
 
         #Tempo scale 
@@ -307,9 +353,9 @@ class MainWindow(ttk.Frame):
         self.label_artist.grid(row = 1, column = 2, columnspan = 4)
 
         #play_Button
-        button_style = ttk.Style()
-        button_style.configure('p.TButton',foreground='white',background='black')
-        self.music_button = ttk.Button(self.main_frame, text = 'Play', command = self.SelectMusic,style='p.TButton')
+        self.button_style = ttk.Style()
+        self.button_style.configure('p.TButton',foreground='white',background='black')
+        self.music_button = ttk.Button(self.main_frame, text = 'Play', command = self.PlayButton,style='p.TButton')
         self.music_button.grid(row = 2, column = 3, columnspan = 2,padx = 5, pady = 5, sticky = (N, E, W, S))
 
         #Combobox
