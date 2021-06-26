@@ -50,6 +50,8 @@ class Music():
         print(self.lyrics_list)
         print(self.chord_list)
 
+        self.lyrics_end_num = len(self.lyrics_list)-1
+
 
     def TransposeScale(self,trans_code):
 
@@ -73,9 +75,6 @@ class Music():
         else:
             print('error TransposeChord')
 
-        #print(self.STANDARD_SCALE)
-        #print(self.trans_scale)
-
 
     def TransposeChord(self,current_chord):  
 
@@ -91,7 +90,6 @@ class Music():
         for i in range(len(current_chord)):
 
             if current_chord[i] in self.STANDARD_SCALE:
-                #print(current_chord[i])
 
                 if i != len(current_chord)-1: 
                     if current_chord[i+1] == '#':
@@ -115,15 +113,15 @@ class Music():
             else:
                 trans_chord.append(current_chord[i])
 
-            #print(trans_chord)
-
 
         trans_chord = "".join(trans_chord)
-        #print(trans_chord)
 
 
         return trans_chord
 
+
+    def GetLyricsEndnum(self):
+        return self.lyrics_end_num
 
     def GetChord(self,num):
         return "".join(self.chord_list[num])

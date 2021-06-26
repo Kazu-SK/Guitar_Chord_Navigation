@@ -56,6 +56,10 @@ class MainWindow(ttk.Frame):
 
         self.high_sound.set_volume(1)
         self.low_sound.set_volume(1)
+
+
+        self.lyrics_num = [0, 1]
+        self.yellow_display_num = 0
         
 
         for i in range(2,7):
@@ -103,25 +107,64 @@ class MainWindow(ttk.Frame):
 
     def DisplayChord(self):
 
+        '''
         self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
-
-        self.label_chord_upper.configure(text = self.chord_upper, foreground="yellow",background="black")
+        self.label_chord_upper.configure(text = self.chord_upper, background="black")
         self.label_chord_upper.update()
 
         self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
         self.label_chord_lower.configure(text = self.chord_lower, background="black")
         self.label_chord_lower.update()
+        '''
+
+        if self.display_line_upper == self.yellow_display_num:
+            self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+            self.label_chord_upper.configure(text = self.chord_upper, foreground="yellow",background="black")
+            self.label_chord_upper.update()
+
+            self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+            self.label_chord_lower.configure(text = self.chord_lower, foreground="white",background="black")
+            self.label_chord_lower.update()
+        else:
+            self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+            self.label_chord_upper.configure(text = self.chord_upper, foreground="white",background="black")
+            self.label_chord_upper.update()
+
+            self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+            self.label_chord_lower.configure(text = self.chord_lower, foreground="yellow",background="black")
+            self.label_chord_lower.update()
 
 
     def DisplayLyrics(self):
 
+        '''
+
         self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
-        self.label_lyrics_upper.configure(text = self.lyrics_upper, foreground="yellow",background="black")
+        self.label_lyrics_upper.configure(text = self.lyrics_upper, background="black")
         self.label_lyrics_upper.update()
 
         self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
         self.label_lyrics_lower.configure(text = self.lyrics_lower, background="black")
         self.label_lyrics_lower.update()
+        '''
+
+        if self.display_line_upper == self.yellow_display_num:
+            self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
+            self.label_lyrics_upper.configure(text = self.lyrics_upper, foreground="yellow",background="black")
+            self.label_lyrics_upper.update()
+
+            self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
+            self.label_lyrics_lower.configure(text = self.lyrics_lower, foreground="white",background="black")
+            self.label_lyrics_lower.update()
+        else:
+            self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
+            self.label_lyrics_upper.configure(text = self.lyrics_upper, foreground="white",background="black")
+            self.label_lyrics_upper.update()
+
+            self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
+            self.label_lyrics_lower.configure(text = self.lyrics_lower, foreground="yellow", background="black")
+            self.label_lyrics_lower.update()
+
 
 
     def value_changed(self,*args):
@@ -221,9 +264,8 @@ class MainWindow(ttk.Frame):
             self.volume_on = False
             self.volume_style.configure('v.TButton',foreground='white',background='black')
 
+
     def TransposeProcess(self,trans_code):
-        print(trans_code)
-        #self.music_obj.Transpose(
         self.music_obj.TransposeScale(trans_code)
 
         self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
@@ -236,6 +278,45 @@ class MainWindow(ttk.Frame):
         self.chord_lower = self.music_obj.TransposeChord(self.chord_lower)
         self.label_chord_lower.configure(text = self.chord_lower, background="black")
         self.label_chord_lower.update()
+
+
+    def PlayBack(self, playback_code):
+
+        if playback_code == 'back':
+            if self.lyrics_num[0] != 0:
+                self.lyrics_num[1] = self.lyrics_num[0]
+                self.lyrics_num[0] = self.lyrics_num[0] - 1 
+                self.yellow_display_num = self.yellow_display_num - 1
+            else:
+                return
+        elif playback_code == 'next':
+            if self.lyrics_num[1] != self.music_obj.GetLyricsEndnum():
+                self.lyrics_num[0] = self.lyrics_num[1]
+                self.lyrics_num[1] = self.lyrics_num[1] + 1
+                self.yellow_display_num = self.yellow_display_num + 1
+            else:
+                return
+        else:
+            return
+
+
+        if self.lyrics_num[0] % 2 == 0:
+            self.display_line_upper = self.lyrics_num[0]
+            self.display_line_lower = self.lyrics_num[1]
+        else:
+            self.display_line_upper = self.lyrics_num[1]
+            self.display_line_lower = self.lyrics_num[0]
+
+        #print(self.display_line_upper)
+        #print(self.display_line_lower)
+
+        self.DisplayChord()
+        self.DisplayLyrics()
+
+
+        #print(self.lyrics_num)
+
+
 
         
     def QuitApp(self):
@@ -332,11 +413,6 @@ class MainWindow(ttk.Frame):
         self.label_tempo = ttk.Label(self.main_frame, text = str(self.level_tempo), font = ("",35), background = "black", foreground = "white")
         self.label_tempo.grid(row = 0, column = 6, padx = 5, pady = 5,sticky = S)
 
-        '''
-        #Tempo level label
-        self.label_test = ttk.Label(self.main_frame, text = 'test', font = ("",35), background = "black", foreground = "white")
-        self.label_test.grid(row = 6, column = 6, sticky = S)
-        '''
         self.metronome_thread = threading.Thread(target=self.TempoSound)
         self.metronome_thread.start()
 
@@ -397,33 +473,30 @@ class MainWindow(ttk.Frame):
         #playback_location(left)_button
         button_style = ttk.Style()
         button_style.configure('pll.TButton',foreground='white',background='black')
-        self.playback_left_button = ttk.Button(self.main_frame, text = '◀', command = self.SelectMusic,style='pll.TButton')
+        self.playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack('back'),style='pll.TButton')
         self.playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #playback_location(right)_button
         button_style = ttk.Style()
         button_style.configure('plr.TButton',foreground='white',background='black')
-        self.playback_right_button = ttk.Button(self.main_frame, text = '▶', command = self.SelectMusic,style='plr.TButton')
+        self.playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack('next'),style='plr.TButton')
         self.playback_right_button.grid(row = 2, column = 5, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
         #Transposition_plus_button
         button_style = ttk.Style()
         button_style.configure('tp.TButton',foreground='white',background='black')
-        #self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = self.TransposePlus,style='tp.TButton')
         self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = lambda:self.TransposeProcess('plus'),style='tp.TButton')
         self.transposition_plus_button.grid(row = 5, column = 4, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #Transposition_minus_button
         button_style = ttk.Style()
         button_style.configure('tm.TButton',foreground='white',background='black')
-        #self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = self.TransposeMinus,style='tm.TButton')
         self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = lambda:self.TransposeProcess('minus'),style='tm.TButton')
         self.transposition_minus_button.grid(row = 5, column = 3, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
         self.CreateMetronome()
-
 
         self.master.protocol("WM_DELETE_WINDOW",self.QuitApp)
 
