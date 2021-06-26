@@ -14,7 +14,7 @@ class Music():
         self.MUSIC_DIR = os.path.abspath("music/")
 
         self.STANDARD_SCALE = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
-        self.trans_scale = self.STANDARD_SCALE#['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+        self.trans_scale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
 
         self.LYRICS_KEY = "lyrics:"
         self.CHORD_KEY = "chord_:"
@@ -57,7 +57,7 @@ class Music():
 
             tmp = self.trans_scale[0]  
 
-            for i in range(len(self.trans_scale)-2):
+            for i in range(len(self.trans_scale)-1):
                 self.trans_scale[i] = self.trans_scale[i+1]
 
             self.trans_scale[len(self.trans_scale)-1] = tmp
@@ -73,11 +73,15 @@ class Music():
         else:
             print('error TransposeChord')
 
+        #print(self.STANDARD_SCALE)
+        #print(self.trans_scale)
+
 
     def TransposeChord(self,current_chord):  
 
         target_list = []
         target_str = []
+        trans_chord = []
 
 
         if current_chord[len(current_chord)-1] == '#':
@@ -86,7 +90,7 @@ class Music():
 
         for i in range(len(current_chord)):
 
-            if current_chord[i] in standard_scale:
+            if current_chord[i] in self.STANDARD_SCALE:
                 #print(current_chord[i])
 
                 if i != len(current_chord)-1: 
@@ -100,25 +104,29 @@ class Music():
 
 
                 target_str = "".join(target_list)
-                trans_num = standard_scale.index(target_str)
+                trans_num = self.STANDARD_SCALE.index(target_str)
 
                 trans_chord.append(self.trans_scale[trans_num])
 
                 target_list = []
 
+            elif current_chord[i] == '#':
+                continue
             else:
                 trans_chord.append(current_chord[i])
 
+            #print(trans_chord)
+
 
         trans_chord = "".join(trans_chord)
-        print(trans_chord)
+        #print(trans_chord)
 
 
         return trans_chord
 
 
     def GetChord(self,num):
-        return self.chord_list[num]
+        return "".join(self.chord_list[num])
 
     def GetLyrics(self,num):
-        return self.lyrics_list[num]
+        return "".join(self.lyrics_list[num])

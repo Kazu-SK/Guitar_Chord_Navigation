@@ -56,6 +56,16 @@ class MainWindow(ttk.Frame):
 
         self.high_sound.set_volume(1)
         self.low_sound.set_volume(1)
+        
+
+        for i in range(2,7):
+            master.grid_columnconfigure(i,weight=1)
+
+        master.grid_columnconfigure(0,weight=1)
+
+        for j in range(10):
+            master.grid_rowconfigure(j,weight=1)
+    
 
     def SelectArtist(self,event):
 
@@ -95,22 +105,22 @@ class MainWindow(ttk.Frame):
 
         self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
 
-        self.label_chord_upper.configure(text = str(self.chord_upper), background="black")
+        self.label_chord_upper.configure(text = self.chord_upper, foreground="yellow",background="black")
         self.label_chord_upper.update()
 
         self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
-        self.label_chord_lower.configure(text = str(self.chord_lower), background="black")
+        self.label_chord_lower.configure(text = self.chord_lower, background="black")
         self.label_chord_lower.update()
 
 
     def DisplayLyrics(self):
 
         self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
-        self.label_lyrics_upper.configure(text = str(self.lyrics_upper), background="black")
+        self.label_lyrics_upper.configure(text = self.lyrics_upper, foreground="yellow",background="black")
         self.label_lyrics_upper.update()
 
         self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
-        self.label_lyrics_lower.configure(text = str(self.lyrics_lower), background="black")
+        self.label_lyrics_lower.configure(text = self.lyrics_lower, background="black")
         self.label_lyrics_lower.update()
 
 
@@ -211,13 +221,22 @@ class MainWindow(ttk.Frame):
             self.volume_on = False
             self.volume_style.configure('v.TButton',foreground='white',background='black')
 
-    def TransposePlus(self):
-        print('plus')
-        self.music_obj.TransposeScale('plus')
+    def TransposeProcess(self,trans_code):
+        print(trans_code)
+        #self.music_obj.Transpose(
+        self.music_obj.TransposeScale(trans_code)
 
-    def TransposeMinus(self):
-        print('minus')
-        self.music_obj.TransposeScale('minus')
+        self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+        self.chord_upper = self.music_obj.TransposeChord(self.chord_upper)
+
+        self.label_chord_upper.configure(text = self.chord_upper, background="black")
+        self.label_chord_upper.update()
+
+        self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+        self.chord_lower = self.music_obj.TransposeChord(self.chord_lower)
+        self.label_chord_lower.configure(text = self.chord_lower, background="black")
+        self.label_chord_lower.update()
+
         
     def QuitApp(self):
 
@@ -232,13 +251,15 @@ class MainWindow(ttk.Frame):
     def CreateListbox(self):
         artist_list = os.listdir(self.music_obj.MUSIC_DIR)
 
+        
         #Artist_Listbox
         self.lb_artist = Listbox(self.main_frame, listvariable = StringVar(value=artist_list), height = 7, background = "black",foreground = "white")
         self.lb_artist.bind(
                     "<<ListboxSelect>>",
                     self.SelectArtist,
                 )
-        self.lb_artist.grid(row=0, column=0, rowspan = 2, padx = 5, pady = 5, sticky=(N,E,S,W))
+        self.lb_artist.grid(row=0, column=0, rowspan = 2, padx = 5, pady = 5,sticky=(N,E,W,S))
+        
 
         # Artist_Scrollbar
         self.artist_scrollbar = ttk.Scrollbar(
@@ -248,8 +269,7 @@ class MainWindow(ttk.Frame):
             )
 
         self.lb_artist['yscrollcommand'] = self.artist_scrollbar.set
-        self.artist_scrollbar.grid(row = 0,column = 1, rowspan = 2, padx = 2, pady = 5,sticky=(N,S,W))
-
+        self.artist_scrollbar.grid(row = 0,column = 1, rowspan = 2, padx = 5, pady = 5,sticky=(N,S))
 
         #Music_Listbox
         self.lb_music = Listbox(self.main_frame, listvariable = StringVar(value=self.music_list), height = 7, background = "black",foreground = "white")
@@ -257,7 +277,7 @@ class MainWindow(ttk.Frame):
                     "<<ListboxSelect>>",
                     self.Template,
                 )
-        self.lb_music.grid(row=2, column=0, rowspan = 3,padx = 5, pady = 5, sticky=(N,E,S,W))
+        self.lb_music.grid(row=2, column=0, rowspan = 3, padx = 5, pady = 5,sticky=(N,E,W,S))
 
         # Music_Scrollbar
         self.music_scrollbar = ttk.Scrollbar(
@@ -265,9 +285,10 @@ class MainWindow(ttk.Frame):
             orient=VERTICAL, 
             command=self.lb_music.yview,
             )
+        
 
         self.lb_music['yscrollcommand'] = self.music_scrollbar.set
-        self.music_scrollbar.grid(row = 2,column = 1, rowspan = 3, padx = 2, pady = 5, sticky=(N,S,W))
+        self.music_scrollbar.grid(row = 2,column = 1, rowspan = 3 ,padx = 5, pady = 5,sticky=(N,S))
 
 
     def CreateMetronome(self):
@@ -275,7 +296,7 @@ class MainWindow(ttk.Frame):
         #Metronome test Button
         self.button_style = ttk.Style()
         self.button_style.configure('m.TButton',foreground='white',background='black')
-        self.metronome_test_button = ttk.Button(self.main_frame, text = 'metronome_test', command = self.MetronomeTest,style='m.TButton')
+        self.metronome_test_button = ttk.Button(self.main_frame, text = 'metronome_test',width = 20 ,command = self.MetronomeTest,style='m.TButton')
         self.metronome_test_button.grid(row = 4, column = 6, padx = 5, pady = 5,sticky = (N, E, W, S))
 
         #Tempo scale 
@@ -289,12 +310,12 @@ class MainWindow(ttk.Frame):
                 length = 200,
                 from_ = 40,
                 to = 208)
-        sc.grid(row = 1, column = 6)#, sticky = (N, E, S, W))
+        sc.grid(row = 1, column = 6, sticky = (E,W))
 
         #Volume Button 
         self.volume_style = ttk.Style()
         self.volume_style.configure('v.TButton',foreground='green',background='black')
-        self.volume_button = ttk.Button(self.main_frame, text = 'Volume' ,command = self.VolumeButton,style='v.TButton')
+        self.volume_button = ttk.Button(self.main_frame, text = 'Volume' ,width = 20, command = self.VolumeButton,style='v.TButton')
         self.volume_button.grid(row = 2, column = 6, padx = 5, pady = 5,sticky = (N, E, W, S))
 
         #Combobox
@@ -328,7 +349,7 @@ class MainWindow(ttk.Frame):
         button_style = ttk.Style()
         button_style.configure('s.TButton',foreground='white',background='black')
         self.music_button = ttk.Button(self.main_frame, text = 'OK', command = self.SelectMusic,style='s.TButton')
-        self.music_button.grid(row = 5, column = 0, padx = 5, pady = 5, sticky = (N, E, W, S))
+        self.music_button.grid(row = 5, column = 0, sticky = (N, E, W, S))
 
 
         #lyrics and chord display (label)
@@ -377,26 +398,28 @@ class MainWindow(ttk.Frame):
         button_style = ttk.Style()
         button_style.configure('pll.TButton',foreground='white',background='black')
         self.playback_left_button = ttk.Button(self.main_frame, text = '◀', command = self.SelectMusic,style='pll.TButton')
-        self.playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5)
+        self.playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #playback_location(right)_button
         button_style = ttk.Style()
         button_style.configure('plr.TButton',foreground='white',background='black')
         self.playback_right_button = ttk.Button(self.main_frame, text = '▶', command = self.SelectMusic,style='plr.TButton')
-        self.playback_right_button.grid(row = 2, column = 5, padx = 5, pady = 5)
+        self.playback_right_button.grid(row = 2, column = 5, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
         #Transposition_plus_button
         button_style = ttk.Style()
         button_style.configure('tp.TButton',foreground='white',background='black')
-        self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = self.TransposePlus,style='tp.TButton')
-        self.transposition_plus_button.grid(row = 5, column = 4, padx = 5, pady = 5, sticky = E)
+        #self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = self.TransposePlus,style='tp.TButton')
+        self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = lambda:self.TransposeProcess('plus'),style='tp.TButton')
+        self.transposition_plus_button.grid(row = 5, column = 4, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #Transposition_minus_button
         button_style = ttk.Style()
         button_style.configure('tm.TButton',foreground='white',background='black')
-        self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = self.TransposeMinus,style='tm.TButton')
-        self.transposition_minus_button.grid(row = 5, column = 3, padx = 5, pady = 5, sticky = W)
+        #self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = self.TransposeMinus,style='tm.TButton')
+        self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = lambda:self.TransposeProcess('minus'),style='tm.TButton')
+        self.transposition_minus_button.grid(row = 5, column = 3, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
         self.CreateMetronome()
