@@ -25,12 +25,22 @@ class Music():
         sample_list = glob.glob(os.path.join(artist_dir,'*'))
         music_list = []
 
+        #print(artist_dir)
+        #print('sample_list')
+        #print(sample_list)
+
         for file_str in sample_list:
             if os.path.isfile(file_str):
                     file_name = Path(file_str).stem
                     music_list.append(file_name)
 
         return music_list
+
+    def ArtistList(self):
+        artist_list = os.listdir(self.MUSIC_DIR)
+
+        return artist_list
+
 
     def GetMusicinfo(self, artist_name, music_name):
         self.lyrics_list = []
@@ -47,8 +57,8 @@ class Music():
                 elif line.find(self.CHORD_KEY) >= 0:
                     self.chord_list.append(line.strip('chord_:,\n'))
 
-        print(self.lyrics_list)
-        print(self.chord_list)
+        #print(self.lyrics_list)
+        #print(self.chord_list)
 
         self.lyrics_end_num = len(self.lyrics_list)-1
 

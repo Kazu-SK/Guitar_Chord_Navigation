@@ -19,6 +19,13 @@ class Sound(Enum):
     PLAY_STATUS = 2
 
 
+class Playback(Enum):
+    #playback
+    START_POSITION = 0 
+    MIDWAY_POSITION = 1 
+    END_POSITION = 2 
+
+
 class MainWindow(ttk.Frame):
     def __init__(self,master = None):
         master.title('lyrics_and_chord')
@@ -32,10 +39,26 @@ class MainWindow(ttk.Frame):
 
         self.music_obj = m.Music()
 
-        self.artist_name = '/Greeen'
-        self.music_list = self.music_obj.MusicList(self.artist_name)
+        #music lyrics and chord init
 
-        self.INTERVAL_LIST = [2,3,4]
+        self.artist_list = self.music_obj.ArtistList()
+
+        self.artist_name = '/' + self.artist_list[0]
+        self.music_list = self.music_obj.MusicList(self.artist_name)
+        self.music_name = self.music_list[0]
+        self.music_obj.GetMusicinfo(self.artist_name,self.music_name)
+        self.display_line_upper = 0
+        self.display_line_lower = 1
+
+        self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+        self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+        self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
+        self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
+
+        self.yellow_display_num = 0
+
+
+        self.INTERVAL_LIST = [1,2,3,4]
 
         #Metronome
         import pygame.mixer
@@ -48,6 +71,7 @@ class MainWindow(ttk.Frame):
         self.beat_list = [2,3,4,6]
         self.beat_count = 0
         self.sound_status = Sound.NONE_STATUS 
+        self.playback_status = Playback.START_POSITION 
 
         self.high_sound = pygame.mixer.Sound("sound/piltu3.wav")
         self.low_sound = pygame.mixer.Sound("sound/piltu4.wav")
@@ -59,7 +83,6 @@ class MainWindow(ttk.Frame):
 
 
         self.lyrics_num = [0, 1]
-        self.yellow_display_num = 0
         
 
         for i in range(2,7):
@@ -76,10 +99,13 @@ class MainWindow(ttk.Frame):
         for i in self.lb_artist.curselection():
             self.artist_name = self.lb_artist.get(i)
 
-        print(self.artist_name)
+        #print(self.artist_name)
 
 
         self.music_list = self.music_obj.MusicList(self.artist_name)
+
+        #print('music_list')
+        #print(self.music_list)
 
         #v2 = StringVar(value=self.music_list) 
         self.lb_music.configure(listvariable = StringVar(value=self.music_list)) 
@@ -91,18 +117,33 @@ class MainWindow(ttk.Frame):
             self.music_name = self.lb_music.get(i)
 
         #print(self.artist_name)
-        print(self.music_name)
+        #print(self.music_name)
 
         self.music_obj.GetMusicinfo(self.artist_name,self.music_name)
 
         self.display_line_upper = 0
         self.display_line_lower = 1
 
+
+        self.label_music.configure(text = self.music_name, foreground="white",background="black")
+        self.label_artist.configure(text = self.artist_name.replace('/',''), foreground="white",background="black")
+        self.label_music.update()
+        self.label_artist.update()
+
+        #print(self.artist_name)
+
+
+        self.lyrics_num = [0, 1]
+        self.yellow_display_num = 0
+
+
         self.DisplayChord()
         self.DisplayLyrics()
 
+    '''
     def Template(self,event):
         print('tmp')
+        '''
 
 
     def DisplayChord(self):
@@ -119,18 +160,22 @@ class MainWindow(ttk.Frame):
 
         if self.display_line_upper == self.yellow_display_num:
             self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+            self.chord_upper = self.music_obj.TransposeChord(self.chord_upper)
             self.label_chord_upper.configure(text = self.chord_upper, foreground="yellow",background="black")
             self.label_chord_upper.update()
 
             self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+            self.chord_lower = self.music_obj.TransposeChord(self.chord_lower)
             self.label_chord_lower.configure(text = self.chord_lower, foreground="white",background="black")
             self.label_chord_lower.update()
         else:
             self.chord_upper = self.music_obj.GetChord(self.display_line_upper)
+            self.chord_upper = self.music_obj.TransposeChord(self.chord_upper)
             self.label_chord_upper.configure(text = self.chord_upper, foreground="white",background="black")
             self.label_chord_upper.update()
 
             self.chord_lower = self.music_obj.GetChord(self.display_line_lower)
+            self.chord_lower = self.music_obj.TransposeChord(self.chord_lower)
             self.label_chord_lower.configure(text = self.chord_lower, foreground="yellow",background="black")
             self.label_chord_lower.update()
 
@@ -283,10 +328,23 @@ class MainWindow(ttk.Frame):
     def PlayBack(self, playback_code):
 
         if playback_code == 'back':
-            if self.lyrics_num[0] != 0:
+            if self.playback_status == Playback.END_POSITION:
+                self.playback_status = Playback.MIDWAY_POSITION
+                self.yellow_display_num = self.yellow_display_num - 1
+                print(self.yellow_display_num)
+                print(self.lyrics_num)
+            elif self.lyrics_num[0] != 0:
                 self.lyrics_num[1] = self.lyrics_num[0]
                 self.lyrics_num[0] = self.lyrics_num[0] - 1 
                 self.yellow_display_num = self.yellow_display_num - 1
+                self.playback_status = Playback.MIDWAY_POSITION
+                print(self.yellow_display_num)
+                print(self.lyrics_num)
+            elif self.lyrics_num[0] == 0 and self.playback_status != Playback.START_POSITION:
+                #self.yellow_display_num = self.yellow_display_num - 1
+                self.playback_status = Playback.START_POSITION
+                print(self.yellow_display_num)
+                print(self.lyrics_num)
             else:
                 return
         elif playback_code == 'next':
@@ -294,6 +352,14 @@ class MainWindow(ttk.Frame):
                 self.lyrics_num[0] = self.lyrics_num[1]
                 self.lyrics_num[1] = self.lyrics_num[1] + 1
                 self.yellow_display_num = self.yellow_display_num + 1
+                self.playback_status = Playback.MIDWAY_POSITION
+                print(self.yellow_display_num)
+                print(self.lyrics_num)
+            elif self.lyrics_num[1] == self.music_obj.GetLyricsEndnum() and self.playback_status != Playback.END_POSITION:
+                self.yellow_display_num = self.yellow_display_num + 1
+                self.playback_status = Playback.END_POSITION
+                print(self.yellow_display_num)
+                print(self.lyrics_num)
             else:
                 return
         else:
@@ -330,11 +396,11 @@ class MainWindow(ttk.Frame):
 
 
     def CreateListbox(self):
-        artist_list = os.listdir(self.music_obj.MUSIC_DIR)
+        #artist_list = os.listdir(self.music_obj.MUSIC_DIR)
 
         
         #Artist_Listbox
-        self.lb_artist = Listbox(self.main_frame, listvariable = StringVar(value=artist_list), height = 7, background = "black",foreground = "white")
+        self.lb_artist = Listbox(self.main_frame, listvariable = StringVar(value=self.artist_list), height = 7, background = "black",foreground = "white")
         self.lb_artist.bind(
                     "<<ListboxSelect>>",
                     self.SelectArtist,
@@ -354,10 +420,12 @@ class MainWindow(ttk.Frame):
 
         #Music_Listbox
         self.lb_music = Listbox(self.main_frame, listvariable = StringVar(value=self.music_list), height = 7, background = "black",foreground = "white")
+        '''
         self.lb_music.bind(
                     "<<ListboxSelect>>",
                     self.Template,
                 )
+                '''
         self.lb_music.grid(row=2, column=0, rowspan = 3, padx = 5, pady = 5,sticky=(N,E,W,S))
 
         # Music_Scrollbar
@@ -429,24 +497,24 @@ class MainWindow(ttk.Frame):
 
 
         #lyrics and chord display (label)
-        self.label_lyrics_upper = ttk.Label(self.main_frame, text = 'test', font = ("",40), background = "black", foreground = "white")
+        self.label_lyrics_upper = ttk.Label(self.main_frame, text = self.lyrics_upper, font = ("",40), background = "black", foreground = "yellow")
         self.label_lyrics_upper.grid(row = 6, column = 0, columnspan = 7, sticky = W)
 
-        self.label_chord_upper = ttk.Label(self.main_frame, text = 'test', font = ("",40), background = "black", foreground = "white")
+        self.label_chord_upper = ttk.Label(self.main_frame, text = self.chord_upper, font = ("",40), background = "black", foreground = "yellow")
         self.label_chord_upper.grid(row = 7, column = 0, columnspan = 7, sticky = W)
         
-        self.label_lyrics_lower = ttk.Label(self.main_frame, text = 'test', font = ("",40), background = "black", foreground = "white")
+        self.label_lyrics_lower = ttk.Label(self.main_frame, text = self.lyrics_lower, font = ("",40), background = "black", foreground = "white")
         self.label_lyrics_lower.grid(row = 8, column = 0, columnspan = 7, sticky = W)
 
-        self.label_chord_lower = ttk.Label(self.main_frame, text = 'test', font = ("",40), background = "black", foreground = "white")
+        self.label_chord_lower = ttk.Label(self.main_frame, text = self.lyrics_upper, font = ("",40), background = "black", foreground = "white")
         self.label_chord_lower.grid(row = 9, column = 0, columnspan = 7, sticky = W)
 
 
         #music and artist display (label)
-        self.label_music = ttk.Label(self.main_frame, text = 'music_test', font = ("",40), background = "black", foreground = "white")
+        self.label_music = ttk.Label(self.main_frame, text = self.music_name, font = ("",40), background = "black", foreground = "white")
         self.label_music.grid(row = 0, column = 2, columnspan = 4)
 
-        self.label_artist = ttk.Label(self.main_frame, text = 'artist_test', font = ("",30), background = "black", foreground = "white")
+        self.label_artist = ttk.Label(self.main_frame, text = self.artist_name.replace('/',''), font = ("",30), background = "black", foreground = "white")
         self.label_artist.grid(row = 1, column = 2, columnspan = 4)
 
         #play_Button
