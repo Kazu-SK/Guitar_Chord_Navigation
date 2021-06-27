@@ -55,6 +55,11 @@ class MainWindow(ttk.Frame):
         self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
         self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
 
+        print(self.lyrics_upper)
+        print(self.lyrics_lower)
+        print(self.chord_upper)
+        print(self.chord_lower)
+
         self.yellow_display_num = 0
 
 
@@ -506,7 +511,7 @@ class MainWindow(ttk.Frame):
         self.label_lyrics_lower = ttk.Label(self.main_frame, text = self.lyrics_lower, font = ("",40), background = "black", foreground = "white")
         self.label_lyrics_lower.grid(row = 8, column = 0, columnspan = 7, sticky = W)
 
-        self.label_chord_lower = ttk.Label(self.main_frame, text = self.lyrics_upper, font = ("",40), background = "black", foreground = "white")
+        self.label_chord_lower = ttk.Label(self.main_frame, text = self.chord_lower, font = ("",40), background = "black", foreground = "white")
         self.label_chord_lower.grid(row = 9, column = 0, columnspan = 7, sticky = W)
 
 
