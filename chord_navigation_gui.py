@@ -225,9 +225,17 @@ class MainWindow(ttk.Frame):
         self.label_tempo.update()
 
 
+    def NavigateScore(self):
+
+        if self.sound_status == Sound.PLAY_STATUS:
+            self.PlayBack('next')
+
     def TempoSound(self):
 
         import time
+
+        self.navigate_thread = threading.Thread(target=self.NavigateScore)
+        self.navigate_thread.start()
 
         proofreading_metronome = 0.0 
 
@@ -239,6 +247,8 @@ class MainWindow(ttk.Frame):
 
                 if self.beat_count == 0:
                     self.high_sound.play()
+                    self.navigate_thread = threading.Thread(target=self.NavigateScore)
+                    self.navigate_thread.start()
                 else:
                     self.low_sound.play()
 
@@ -271,6 +281,7 @@ class MainWindow(ttk.Frame):
             self.button_status = False
             self.working_app = False
             self.metronome_thread.join()
+            self.navigate_thread.join()
 
             self.working_app = True 
             self.button_status = True 
@@ -397,6 +408,7 @@ class MainWindow(ttk.Frame):
         self.working_app = False
 
         self.metronome_thread.join()
+        self.navigate_thread.join()
         self.master.destroy()
 
 
