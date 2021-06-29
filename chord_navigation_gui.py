@@ -317,6 +317,9 @@ class MainWindow(ttk.Frame):
             self.working_app = True 
             self.button_status = True 
             self.beat_count = 0
+            self.loop_count = 0
+            self.scroll_flag = False
+
             self.button_style.configure('m.TButton',foreground='white')
             self.label_tempo.configure(foreground='#00ff00')
             self.button_style.configure('p.TButton',foreground='green',background='black')
@@ -332,6 +335,8 @@ class MainWindow(ttk.Frame):
             self.label_tempo.configure(foreground='#00ff00')
             #self.beat_count = 0
             self.button_style.configure('p.TButton',foreground='green',background='black')
+            self.loop_count = 0
+            self.scroll_flag = False
             self.sound_status = Sound.PLAY_STATUS
             
         else: #Sound.PLAY_STATUS
