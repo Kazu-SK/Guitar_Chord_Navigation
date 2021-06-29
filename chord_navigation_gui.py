@@ -27,7 +27,11 @@ class Playback(Enum):
 
 
 class MainWindow(ttk.Frame):
+
     def __init__(self,master = None):
+
+        self.Config()
+
         master.title('lyrics_and_chord')
         master["bg"] = "black"
 
@@ -63,7 +67,6 @@ class MainWindow(ttk.Frame):
         self.yellow_display_num = 0
 
 
-        self.INTERVAL_LIST = [1,2,3,4]
 
         #Metronome
         import pygame.mixer
@@ -87,8 +90,10 @@ class MainWindow(ttk.Frame):
         self.low_sound.set_volume(1)
 
 
+        #lyrics and chord scroll
         self.lyrics_num = [0, 1]
-        
+        self.loop_count = 0
+        self.scroll_flag = False
 
         for i in range(2,7):
             master.grid_columnconfigure(i,weight=1)
@@ -98,6 +103,10 @@ class MainWindow(ttk.Frame):
         for j in range(10):
             master.grid_rowconfigure(j,weight=1)
     
+
+    def Config(self):
+        self.INTERVAL_LIST = [1,2,3,4]
+
 
     def SelectArtist(self,event):
 
@@ -227,14 +236,36 @@ class MainWindow(ttk.Frame):
 
     def NavigateScore(self):
 
-        if self.sound_status == Sound.PLAY_STATUS:
+
+        self.loop_count = self.loop_count + 1
+
+        if self.sound_status == Sound.PLAY_STATUS and self.scroll_flag == True and self.loop_count >= 2:
             self.PlayBack('next')
+            self.loop_count = 0
+        else:
+            if self.scroll_flag == True:
+                return
+
+            if self.loop_count > int(self.interval_num.get()):
+                self.scroll_flag = True
+                self.loop_count = 0
+                '''
+                print('scroll_flag = True')
+
+                print('interval_num')
+                print(int(self.interval_num.get()))
+                print('loop_count')
+                print(self.loop_count)
+                '''
 
     def TempoSound(self):
 
         import time
 
-        self.navigate_thread = threading.Thread(target=self.NavigateScore)
+        def AbandonedStone(): 
+            return
+
+        self.navigate_thread = threading.Thread(target=AbandonedStone)
         self.navigate_thread.start()
 
         proofreading_metronome = 0.0 
@@ -309,6 +340,8 @@ class MainWindow(ttk.Frame):
             self.button_style.configure('p.TButton',foreground='white',background='black')
             self.sound_status = Sound.NONE_STATUS
             self.beat_count = 0
+            self.loop_count = 0
+            self.scroll_flag = False
 
 
 
@@ -347,20 +380,19 @@ class MainWindow(ttk.Frame):
             if self.playback_status == Playback.END_POSITION:
                 self.playback_status = Playback.MIDWAY_POSITION
                 self.yellow_display_num = self.yellow_display_num - 1
-                print(self.yellow_display_num)
-                print(self.lyrics_num)
+                #print(self.yellow_display_num)
+                #print(self.lyrics_num)
             elif self.lyrics_num[0] != 0:
                 self.lyrics_num[1] = self.lyrics_num[0]
                 self.lyrics_num[0] = self.lyrics_num[0] - 1 
                 self.yellow_display_num = self.yellow_display_num - 1
                 self.playback_status = Playback.MIDWAY_POSITION
-                print(self.yellow_display_num)
-                print(self.lyrics_num)
+                #print(self.yellow_display_num)
+                #print(self.lyrics_num)
             elif self.lyrics_num[0] == 0 and self.playback_status != Playback.START_POSITION:
-                #self.yellow_display_num = self.yellow_display_num - 1
                 self.playback_status = Playback.START_POSITION
-                print(self.yellow_display_num)
-                print(self.lyrics_num)
+                #print(self.yellow_display_num)
+                #print(self.lyrics_num)
             else:
                 return
         elif playback_code == 'next':
@@ -369,13 +401,13 @@ class MainWindow(ttk.Frame):
                 self.lyrics_num[1] = self.lyrics_num[1] + 1
                 self.yellow_display_num = self.yellow_display_num + 1
                 self.playback_status = Playback.MIDWAY_POSITION
-                print(self.yellow_display_num)
-                print(self.lyrics_num)
+                #print(self.yellow_display_num)
+                #print(self.lyrics_num)
             elif self.lyrics_num[1] == self.music_obj.GetLyricsEndnum() and self.playback_status != Playback.END_POSITION:
                 self.yellow_display_num = self.yellow_display_num + 1
                 self.playback_status = Playback.END_POSITION
-                print(self.yellow_display_num)
-                print(self.lyrics_num)
+                #print(self.yellow_display_num)
+                #print(self.lyrics_num)
             else:
                 return
         else:

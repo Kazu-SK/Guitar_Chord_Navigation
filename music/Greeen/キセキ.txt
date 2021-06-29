@@ -15,7 +15,7 @@ chord_:F        C        /F        G        /
 lyrics:今もこんなに好きでいるのに
 chord_:C        E7        /Am        Em         /       
 lyrics:言葉にできない。
-chord_:F        Fm        /G 
+chord_:F        Fm        /C
 lyrics:君のくれた日々が積み重なり
 chord_:Am       Em        /F  G  C       / 
 lyrics:過ぎ去った日々2人歩いた「軌跡」

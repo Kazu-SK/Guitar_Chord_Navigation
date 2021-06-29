@@ -10,14 +10,23 @@ import glob
 
 
 class Music():
+
+
     def __init__(self):
+
+        self.Config()
+
+        self.trans_scale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+
+
+    def Config(self):
         self.MUSIC_DIR = os.path.abspath("music/")
 
         self.STANDARD_SCALE = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
-        self.trans_scale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
 
         self.LYRICS_KEY = "lyrics:"
         self.CHORD_KEY = "chord_:"
+
 
     def MusicList(self,artist_name = None):
         artist_dir = self.MUSIC_DIR + '/' + artist_name 
