@@ -59,10 +59,6 @@ class MainWindow(ttk.Frame):
         self.lyrics_upper = self.music_obj.GetLyrics(self.display_line_upper)
         self.lyrics_lower = self.music_obj.GetLyrics(self.display_line_lower)
 
-        print(self.lyrics_upper)
-        print(self.lyrics_lower)
-        print(self.chord_upper)
-        print(self.chord_lower)
 
         self.yellow_display_num = 0
 
@@ -95,6 +91,8 @@ class MainWindow(ttk.Frame):
         self.loop_count = 0
         self.scroll_flag = False
 
+
+        #column row configure
         for i in range(2,7):
             master.grid_columnconfigure(i,weight=1)
 
@@ -106,6 +104,11 @@ class MainWindow(ttk.Frame):
 
     def Config(self):
         self.INTERVAL_LIST = [1,2,3,4]
+
+        self.LABEL_PLAY = 'Play'
+        self.LABEL_INTERVAL = 'Intereval'
+        self.LABEL_STOP = 'Stop'
+
 
 
     def SelectArtist(self,event):
@@ -245,18 +248,17 @@ class MainWindow(ttk.Frame):
         else:
             if self.scroll_flag == True:
                 return
+            else:
+                self.label_play_display.configure(text = self.LABEL_INTERVAL,foreground="yellow", background="black")
 
             if self.loop_count > int(self.interval_num.get()):
-                self.scroll_flag = True
+                if  self.sound_status == Sound.PLAY_STATUS: 
+                    self.scroll_flag = True
+                    self.label_play_display.configure(text = self.LABEL_PLAY,foreground="green", background="black")
+                
                 self.loop_count = 0
-                '''
-                print('scroll_flag = True')
 
-                print('interval_num')
-                print(int(self.interval_num.get()))
-                print('loop_count')
-                print(self.loop_count)
-                '''
+            
 
     def TempoSound(self):
 
@@ -304,6 +306,11 @@ class MainWindow(ttk.Frame):
                 self.label_tempo.configure(foreground='#ffffff')
                 self.button_style.configure('m.TButton',foreground='white')
                 self.beat_count = 0
+
+                #scroll
+                self.loop_count = 0
+                self.label_play_display.configure(text = self.LABEL_STOP,foreground="red", background="black")
+
                 self.sound_status = Sound.NONE_STATUS
 
     def PlayButton(self):
@@ -311,12 +318,13 @@ class MainWindow(ttk.Frame):
         if self.sound_status == Sound.TEST_STATUS:
             self.button_status = False
             self.working_app = False
+            self.beat_count = 0
             self.metronome_thread.join()
             self.navigate_thread.join()
 
+            #initialize for play
             self.working_app = True 
             self.button_status = True 
-            self.beat_count = 0
             self.loop_count = 0
             self.scroll_flag = False
 
@@ -328,14 +336,11 @@ class MainWindow(ttk.Frame):
 
             self.sound_status = Sound.PLAY_STATUS
 
-            print('PlayButton')
 
         elif self.sound_status == Sound.NONE_STATUS:
             self.button_status = True 
             self.label_tempo.configure(foreground='#00ff00')
-            #self.beat_count = 0
             self.button_style.configure('p.TButton',foreground='green',background='black')
-            self.loop_count = 0
             self.scroll_flag = False
             self.sound_status = Sound.PLAY_STATUS
             
@@ -347,6 +352,7 @@ class MainWindow(ttk.Frame):
             self.beat_count = 0
             self.loop_count = 0
             self.scroll_flag = False
+            self.label_play_display.configure(text = self.LABEL_STOP,foreground="red", background="black")
 
 
 
@@ -588,7 +594,7 @@ class MainWindow(ttk.Frame):
         cb.grid(row = 3, column = 3, columnspan = 2)
 
         #play_display
-        self.label_play_display = ttk.Label(self.main_frame, text = 'play_display_test',font = ("",20), background = "black", foreground = "white")
+        self.label_play_display = ttk.Label(self.main_frame, text = self.LABEL_STOP,font = ("",30), background = "black", foreground = "red")
         self.label_play_display.grid(row = 4, column = 3, columnspan=2)
 
 
