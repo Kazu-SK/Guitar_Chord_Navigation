@@ -93,8 +93,10 @@ class MainWindow(ttk.Frame):
 
 
         #column row configure
-        for i in range(2,7):
+        for i in range(2,6):
             master.grid_columnconfigure(i,weight=1)
+
+        #master.grid_columnconfigure(2,weight=1)
 
         master.grid_columnconfigure(0,weight=1)
 
@@ -105,9 +107,13 @@ class MainWindow(ttk.Frame):
     def Config(self):
         self.INTERVAL_LIST = [1,2,3,4]
 
+        self.LABEL_INTERVAL_BAR = 'Interval(bar)'
+        self.LABEL_BEAT = 'Beat'
+
         self.LABEL_PLAY = 'Play'
         self.LABEL_INTERVAL = 'Intereval'
         self.LABEL_STOP = 'Stop'
+        self.LABEL_END = 'End'
 
 
 
@@ -420,6 +426,10 @@ class MainWindow(ttk.Frame):
                 #print(self.yellow_display_num)
                 #print(self.lyrics_num)
             else:
+                #End
+                if self.sound_status == Sound.PLAY_STATUS:
+                    self.label_play_display.configure(text = self.LABEL_END,foreground='skyblue', background="black")
+
                 return
         else:
             return
@@ -506,7 +516,7 @@ class MainWindow(ttk.Frame):
         self.button_style = ttk.Style()
         self.button_style.configure('m.TButton',foreground='white',background='black')
         self.metronome_test_button = ttk.Button(self.main_frame, text = 'metronome_test',width = 20 ,command = self.MetronomeTest,style='m.TButton')
-        self.metronome_test_button.grid(row = 4, column = 6, padx = 5, pady = 5,sticky = (N, E, W, S))
+        self.metronome_test_button.grid(row = 4, column = 6, columnspan = 2,padx = 5, pady = 5,sticky = (N, E, W, S))
 
         #Tempo scale 
         self.myval = DoubleVar()
@@ -519,15 +529,18 @@ class MainWindow(ttk.Frame):
                 length = 200,
                 from_ = 40,
                 to = 208)
-        sc.grid(row = 1, column = 6, sticky = (E,W))
+        sc.grid(row = 1, column = 6, columnspan = 2, sticky = (E,W))
 
         #Volume Button 
         self.volume_style = ttk.Style()
         self.volume_style.configure('v.TButton',foreground='green',background='black')
         self.volume_button = ttk.Button(self.main_frame, text = 'Volume' ,width = 20, command = self.VolumeButton,style='v.TButton')
-        self.volume_button.grid(row = 2, column = 6, padx = 5, pady = 5,sticky = (N, E, W, S))
+        self.volume_button.grid(row = 2, column = 6, columnspan = 2, padx = 5, pady = 5,sticky = (N, E, W, S))
 
         #Combobox
+        self.label_beat = ttk.Label(self.main_frame, text = self.LABEL_BEAT, font = ("",12), background = "black", foreground = "white")
+        self.label_beat.grid(row = 3, column = 6, padx = 5, pady = 5, sticky = E)
+
         self.beat_num = StringVar()
         cb = ttk.Combobox(
                 self.main_frame,
@@ -535,22 +548,35 @@ class MainWindow(ttk.Frame):
                 value = self.beat_list,
                 width = 10)
         cb.set(self.beat_list[2])
-        cb.grid(row = 3, column = 6, padx = 5, pady = 5)
+        cb.grid(row = 3, column = 7, padx = 5, pady = 5, sticky = W)
+
 
         #Tempo level label
         self.label_tempo = ttk.Label(self.main_frame, text = str(self.level_tempo), font = ("",35), background = "black", foreground = "white")
-        self.label_tempo.grid(row = 0, column = 6, padx = 5, pady = 5,sticky = S)
+        self.label_tempo.grid(row = 0, column = 6, columnspan = 2,padx = 5, pady = 5,sticky = S)
 
         self.metronome_thread = threading.Thread(target=self.TempoSound)
         self.metronome_thread.start()
+
+        #Proofreading button
+        button_style = ttk.Style()
+
+        button_style.configure('pf_m.TButton',foreground='white',background='black')
+        self.proofreading_minus_button = ttk.Button(self.main_frame, text = 'PF -' ,width = 20,style='pf_m.TButton')
+        self.proofreading_minus_button.grid(row = 5, column = 6, padx = 5, pady = 5, sticky =(N,E,W,S))
+
+        button_style.configure('pf_p.TButton',foreground='white',background='black')
+        self.proofreading_plus_button = ttk.Button(self.main_frame, text = 'PF +' ,width = 20,style='pf_p.TButton')
+        self.proofreading_plus_button.grid(row = 5, column = 7, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
     def CreateWidget(self):
 
         self.CreateListbox()
+        button_style = ttk.Style()
 
         #Music_Button
-        button_style = ttk.Style()
+        #button_style = ttk.Style()
         button_style.configure('s.TButton',foreground='white',background='black')
         self.music_button = ttk.Button(self.main_frame, text = 'OK', command = self.SelectMusic,style='s.TButton')
         self.music_button.grid(row = 5, column = 0, sticky = (N, E, W, S))
@@ -578,12 +604,12 @@ class MainWindow(ttk.Frame):
         self.label_artist.grid(row = 1, column = 2, columnspan = 4)
 
         #play_Button
-        self.button_style = ttk.Style()
-        self.button_style.configure('p.TButton',foreground='white',background='black')
+        #self.button_style = ttk.Style()
+        button_style.configure('p.TButton',foreground='white',background='black')
         self.music_button = ttk.Button(self.main_frame, text = 'Play', command = self.PlayButton,style='p.TButton')
         self.music_button.grid(row = 2, column = 3, columnspan = 2,padx = 5, pady = 5, sticky = (N, E, W, S))
 
-        #Combobox
+        #Interval Combobox
         self.interval_num = StringVar()
         cb = ttk.Combobox(
                 self.main_frame,
@@ -591,7 +617,11 @@ class MainWindow(ttk.Frame):
                 value = self.INTERVAL_LIST,
                 width = 10)
         cb.set(self.INTERVAL_LIST[2])
-        cb.grid(row = 3, column = 3, columnspan = 2)
+        cb.grid(row = 3, column = 4, padx = 5, pady = 5,sticky = W)
+
+        #Interval Label
+        self.label_interval = ttk.Label(self.main_frame, text = self.LABEL_INTERVAL_BAR,font = ("",12), background = "black", foreground = "white")
+        self.label_interval.grid(row = 3, column = 3, padx = 5, pady = 5,sticky = E)
 
         #play_display
         self.label_play_display = ttk.Label(self.main_frame, text = self.LABEL_STOP,font = ("",30), background = "black", foreground = "red")
@@ -599,28 +629,28 @@ class MainWindow(ttk.Frame):
 
 
         #playback_location(left)_button
-        button_style = ttk.Style()
+        #button_style = ttk.Style()
         button_style.configure('pll.TButton',foreground='white',background='black')
         self.playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack('back'),style='pll.TButton')
         self.playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #playback_location(right)_button
-        button_style = ttk.Style()
+        #button_style = ttk.Style()
         button_style.configure('plr.TButton',foreground='white',background='black')
         self.playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack('next'),style='plr.TButton')
         self.playback_right_button.grid(row = 2, column = 5, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
         #Transposition_plus_button
-        button_style = ttk.Style()
+        #button_style = ttk.Style()
         button_style.configure('tp.TButton',foreground='white',background='black')
-        self.transposition_plus_button = ttk.Button(self.main_frame, text = '+', command = lambda:self.TransposeProcess('plus'),style='tp.TButton')
+        self.transposition_plus_button = ttk.Button(self.main_frame, text = 'key    +', command = lambda:self.TransposeProcess('plus'),style='tp.TButton')
         self.transposition_plus_button.grid(row = 5, column = 4, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         #Transposition_minus_button
-        button_style = ttk.Style()
+        #button_style = ttk.Style()
         button_style.configure('tm.TButton',foreground='white',background='black')
-        self.transposition_minus_button = ttk.Button(self.main_frame, text = '-', command = lambda:self.TransposeProcess('minus'),style='tm.TButton')
+        self.transposition_minus_button = ttk.Button(self.main_frame, text = 'key    -', command = lambda:self.TransposeProcess('minus'),style='tm.TButton')
         self.transposition_minus_button.grid(row = 5, column = 3, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
