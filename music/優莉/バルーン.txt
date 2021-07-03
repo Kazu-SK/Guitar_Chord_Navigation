@@ -1,0 +1,21 @@
+
+lyrics:(イントロ)
+chord_:F      G      /Em       Am      /
+lyrics:(イントロ)
+chord_:Dm      Em      /Am      C      /
+lyrics:(イントロ)
+chord_:F      G      /Em       Am      /
+lyrics:(イントロ)
+chord_:Dm      G     C/      Csus4      /
+lyrics:膨らんでは 縮んだり
+chord_:C            /Bm7     E        /        
+lyrics:空に浮かんでは 割れたり まるで
+chord_:Am           /Gm      C        /
+lyrics:僕の心を愚直に表してるね
+chord_:F            /G       C       /
+lyrics:
+chord_:            /A# B  C       / 
+lyrics:自由気ままに見えて実は
+chord_:C            /Bm7     E        /        
+lyrics:一人では何もできないんだよ
+chord_:Am           /Gm      C        /

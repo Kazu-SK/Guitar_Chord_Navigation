@@ -85,6 +85,13 @@ class MainWindow(ttk.Frame):
         self.high_sound.set_volume(1)
         self.low_sound.set_volume(1)
 
+        self.proofreading_file = open("proofreading.txt","+r")
+        self.proofreading_metronome = float(self.proofreading_file.read()) 
+        self.proofreading_file.truncate(0)
+        self.proofreading_file.close()
+
+        print(self.proofreading_metronome)
+
 
         #lyrics and chord scroll
         self.lyrics_num = [0, 1]
@@ -264,6 +271,19 @@ class MainWindow(ttk.Frame):
                 
                 self.loop_count = 0
 
+
+    def PFminus(self):
+        #print('minus')
+        self.proofreading_metronome = self.proofreading_metronome - 5 
+
+        #print(self.proofreading_metronome)
+
+
+    def PFplus(self):
+        #print('plus')
+        self.proofreading_metronome = self.proofreading_metronome + 5 
+
+        #print(self.proofreading_metronome)
             
 
     def TempoSound(self):
@@ -276,7 +296,6 @@ class MainWindow(ttk.Frame):
         self.navigate_thread = threading.Thread(target=AbandonedStone)
         self.navigate_thread.start()
 
-        proofreading_metronome = 0.0 
 
         while self.working_app: 
             while self.button_status:# and self.working_app:
@@ -295,9 +314,9 @@ class MainWindow(ttk.Frame):
                 if self.beat_count >= int(self.beat_num.get()):
                      self.beat_count = 0
 
-                #proofreading_metronome = time.time() - start
-                time.sleep(beat_time - proofreading_metronome)
-                #print(float(elapsed_time))
+                time.sleep(beat_time + self.proofreading_metronome/1000.0)
+                #wait_timer = time.time() - start
+                #print(float(wait_timer))
 
     def MetronomeTest(self):
 
@@ -460,6 +479,11 @@ class MainWindow(ttk.Frame):
         self.volume_on = False
         self.working_app = False
 
+        self.proofreading_file = open("proofreading.txt","a")
+        print(self.proofreading_metronome)
+        self.proofreading_file.write(str(self.proofreading_metronome))
+        self.proofreading_file.close()
+
         self.metronome_thread.join()
         self.navigate_thread.join()
         self.master.destroy()
@@ -562,11 +586,11 @@ class MainWindow(ttk.Frame):
         button_style = ttk.Style()
 
         button_style.configure('pf_m.TButton',foreground='white',background='black')
-        self.proofreading_minus_button = ttk.Button(self.main_frame, text = 'PF -' ,width = 20,style='pf_m.TButton')
+        self.proofreading_minus_button = ttk.Button(self.main_frame, text = 'PF -' , command = self.PFminus,width = 20,style='pf_m.TButton')
         self.proofreading_minus_button.grid(row = 5, column = 6, padx = 5, pady = 5, sticky =(N,E,W,S))
 
         button_style.configure('pf_p.TButton',foreground='white',background='black')
-        self.proofreading_plus_button = ttk.Button(self.main_frame, text = 'PF +' ,width = 20,style='pf_p.TButton')
+        self.proofreading_plus_button = ttk.Button(self.main_frame, text = 'PF +' , command = self.PFplus,width = 20,style='pf_p.TButton')
         self.proofreading_plus_button.grid(row = 5, column = 7, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
