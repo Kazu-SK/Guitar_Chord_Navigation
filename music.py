@@ -71,6 +71,8 @@ class Music():
 
         self.lyrics_end_num = len(self.lyrics_list)-1
 
+        tf.close()
+
 
     def TransposeScale(self,trans_code):
 

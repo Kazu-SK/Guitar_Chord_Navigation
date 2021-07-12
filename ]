@@ -31,23 +31,21 @@ class MainWindow(ttk.Frame):
         master.grid_columnconfigure(0,weight=1)
         master.grid_columnconfigure(1,weight=1)
 
-        master.grid_rowconfigure(5,weight=1)
+        master.grid_rowconfigure(3,weight=1)
 
 
     def Config(self):
         print('config')
         self.MUSIC_DIR = os.path.abspath("music/")
-        self.SPACE_CHORD = '            /            '
 
 
     def SaveButton(self):
 
         artist_list = []
         artist_name = self.text_artist.get('1.0','end-1c') 
-        music_name = self.text_music.get('1.0', 'end-1c')
+        musit_name = self.text_music.get('1.0', 'end-1c')
         lyrics_str = self.text_lyrics.get('1.0', 'end-1c')
         chord_str = self.text_chord.get('1.0', 'end-1c')
-
 
         file_list = os.listdir(self.MUSIC_DIR)
 
@@ -58,65 +56,46 @@ class MainWindow(ttk.Frame):
         if artist_name not in artist_list:
             os.mkdir(self.MUSIC_DIR + '/' + artist_name)
 
-        save_dir = self.MUSIC_DIR + '/' + artist_name + '/'
-
         table = lyrics_str.maketrans({'\u3000':' '})
         lyrics_str = lyrics_str.translate(table)
 
         table = chord_str.maketrans({'\u3000':' '})
         chord_str = chord_str.translate(table)
 
+        #lyrics_str.strip('\u3000')
+        #lyrics_str.strip('　')
+        #lyrics_str.replace('　','')
+        #print(lyrics_str)
         lyrics_output = lyrics_str.split('\n')
         chord_output = chord_str.split('\n')
 
         lyrics_list = []
         chord_list = []
-        music_list = []
 
-        for lyrics_lines ,lyrics in enumerate(lyrics_output):
-            lyrics_list.append('lyrics:'+lyrics+'\n')
+        for i ,lyrics in enumerate(lyrics_output):
+            lyrics_list.append('lyrics:'+lyrics)
 
-        for chord_lines ,chord in enumerate(chord_output):
-            chord_list.append('chord_:'+chord+'\n')
+        for i ,chord in enumerate(chord_output):
+            chord_list.append('lyrics:'+chord)
+        
 
+        '''
+        output[i] = fix
+        print(fix)
+        print(output[i])
+        lyrics_list
+        '''
 
-        if lyrics_lines > chord_lines:
-            for i in range(lyrics_lines-chord_lines):
-                chord_list.append('chord_:'+self.SPACE_CHORD+'\n')
-        elif chord_lines > lyrics_lines:
-            for i in range(chord_lines-lyrics_lines):
-                lyrics_list.append('lyrics:'+self.SPACE_CHORD+'\n')
-        else:
-            pass
-
-
-        file_list = os.listdir(self.MUSIC_DIR+'/'+artist_name+'/')
-
-        for f in file_list:
-            if os.path.isfile(os.path.join(self.MUSIC_DIR+'/'+artist_name+'/',f)) == True:
-                music_list.append(f)
+        #print(lyrics_list)
 
 
-        print(music_list)
-        file_name = music_name + '.txt'
-
-        if file_name in music_list:
-            file_obj = open(save_dir+file_name,'w') #over write
-        else:
-            file_obj = open(save_dir+file_name,'x') #new
-
-        file_obj.writelines(lyrics_list)
-        file_obj.writelines(chord_list)
-                        
-        file_obj.close()
-
-
-    def LoadButton(self):
-        print('load')
+    def ReadButton(self):
+        print('read')
 
 
     def CreateWidget(self):
         print('createwidget')
+        
 
         ''' Label '''
         #artist label
@@ -167,7 +146,7 @@ class MainWindow(ttk.Frame):
 
         #read_button
         button_style.configure('read.TButton',foreground='white',background='black')
-        self.volume_button = ttk.Button(self.main_frame, text = 'LOAD' ,width = 20, command = self.LoadButton,style='read.TButton')
+        self.volume_button = ttk.Button(self.main_frame, text = 'READ' ,width = 20, command = self.ReadButton,style='read.TButton')
         self.volume_button.grid(row = 6, column = 0, padx = 5, pady = 5, sticky = E)
 
         self.master.mainloop()
