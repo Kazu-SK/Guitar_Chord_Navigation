@@ -1,6 +1,7 @@
 
 from tkinter import *
 from tkinter import ttk
+import tkinter as tk 
 from tkinter import filedialog
 
 from tkinter.font import Font
@@ -10,6 +11,27 @@ from pathlib import Path
 import os
 import sys 
 import glob
+
+
+'''
+class ErrorWindow(ttk.Frame):
+
+    def __init__(self,master = None):
+        master.title('Error')
+        master["bg"] = "black"
+
+        frame_style = ttk.Style()
+        frame_style.configure('error.TFrame',background='black')
+        self.error_frame = super().__init__(master,style='error.TFrame')
+
+        self.grid()
+
+    def CreateWidget(self):
+        self.label_error = ttk.Label(self.error_frame, text = 'Error', font = ("",35), background = "black", foreground = "white")
+        self.label_error.grid(row = 0, column = 0, padx = 10, pady = 10, sticky=(N,E,W,S))
+
+        self.master.mainloop()
+'''
 
 
 class MainWindow(ttk.Frame):
@@ -26,7 +48,6 @@ class MainWindow(ttk.Frame):
 
         self.grid()
 
-        print('init')
 
         master.grid_columnconfigure(0,weight=1)
         master.grid_columnconfigure(1,weight=1)
@@ -35,9 +56,30 @@ class MainWindow(ttk.Frame):
 
 
     def Config(self):
-        print('config')
         self.MUSIC_DIR = os.path.abspath("music/")
         self.SPACE_CHORD = '            /            '
+
+        self.DETAIL_ERROR = 'Please fill in the blank.'
+
+
+    def Error(self,a_name, m_name,l_str,c_str):
+
+        def error_window():
+            error_win = tk.Toplevel()
+            error_win.geometry("300x100")
+
+            label_error = tk.Label(error_win, text="Error", font = ("",30), foreground = "red")
+            label_error.pack()
+            label_detail = tk.Label(error_win, text=self.DETAIL_ERROR, font = ("",20))
+            label_detail.pack()
+
+
+        if a_name == '' or m_name == '' or l_str == '' or c_str == '':
+            error_window()
+
+            return True 
+
+        return False
 
 
     def SaveButton(self):
@@ -48,6 +90,9 @@ class MainWindow(ttk.Frame):
         lyrics_str = self.text_lyrics.get('1.0', 'end-1c')
         chord_str = self.text_chord.get('1.0', 'end-1c')
 
+
+        if self.Error(artist_name, music_name, lyrics_str, chord_str) == True:
+            return
 
         file_list = os.listdir(self.MUSIC_DIR)
 
@@ -97,7 +142,6 @@ class MainWindow(ttk.Frame):
                 music_list.append(f)
 
 
-        print(music_list)
         file_name = music_name + '.txt'
 
         if file_name in music_list:
@@ -116,7 +160,6 @@ class MainWindow(ttk.Frame):
 
 
     def CreateWidget(self):
-        print('createwidget')
 
         ''' Label '''
         #artist label

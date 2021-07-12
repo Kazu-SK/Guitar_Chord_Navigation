@@ -34,9 +34,6 @@ class Music():
         sample_list = glob.glob(os.path.join(artist_dir,'*'))
         music_list = []
 
-        #print(artist_dir)
-        #print('sample_list')
-        #print(sample_list)
 
         for file_str in sample_list:
             if os.path.isfile(file_str):
@@ -66,8 +63,6 @@ class Music():
                 elif line.find(self.CHORD_KEY) >= 0:
                     self.chord_list.append(line.strip('chord_:,\n'))
 
-        #print(self.lyrics_list)
-        #print(self.chord_list)
 
         self.lyrics_end_num = len(self.lyrics_list)-1
 
