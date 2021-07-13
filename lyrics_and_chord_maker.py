@@ -12,26 +12,6 @@ import os
 import sys 
 import glob
 
-'''
-class ErrorWindow(ttk.Frame):
-
-    def __init__(self,master = None):
-        master.title('Error')
-        master["bg"] = "black"
-
-        frame_style = ttk.Style()
-        frame_style.configure('error.TFrame',background='black')
-        self.error_frame = super().__init__(master,style='error.TFrame')
-
-        self.grid()
-
-    def CreateWidget(self):
-        self.label_error = ttk.Label(self.error_frame, text = 'Error', font = ("",35), background = "black", foreground = "white")
-        self.label_error.grid(row = 0, column = 0, padx = 10, pady = 10, sticky=(N,E,W,S))
-
-        self.master.mainloop()
-'''
-
 
 
 class MainWindow(ttk.Frame):
@@ -189,10 +169,11 @@ class MainWindow(ttk.Frame):
             lyrics_str = ''.join(lyrics_list)  
             chord_str = ''.join(chord_list)
 
+            self.text_lyrics.delete(1.0,"end")
+            self.text_chord.delete(1.0,"end")
+
             self.text_lyrics.insert(1.0, lyrics_str)
             self.text_chord.insert(1.0, chord_str)
-
-            print(file_name)
 
         else:
             pass
