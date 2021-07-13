@@ -169,11 +169,18 @@ class MainWindow(ttk.Frame):
             lyrics_str = ''.join(lyrics_list)  
             chord_str = ''.join(chord_list)
 
+            music_str = os.path.splitext(os.path.basename(file_name))[0]
+            artist_str = os.path.basename(os.path.dirname(file_name))
+
             self.text_lyrics.delete(1.0,"end")
             self.text_chord.delete(1.0,"end")
+            self.text_artist.delete(1.0,"end")
+            self.text_music.delete(1.0,"end")
 
             self.text_lyrics.insert(1.0, lyrics_str)
             self.text_chord.insert(1.0, chord_str)
+            self.text_artist.insert(1.0, artist_str)
+            self.text_music.insert(1.0, music_str)
 
         else:
             pass
