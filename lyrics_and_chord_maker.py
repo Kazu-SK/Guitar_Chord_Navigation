@@ -12,7 +12,6 @@ import os
 import sys 
 import glob
 
-
 '''
 class ErrorWindow(ttk.Frame):
 
@@ -32,6 +31,7 @@ class ErrorWindow(ttk.Frame):
 
         self.master.mainloop()
 '''
+
 
 
 class MainWindow(ttk.Frame):
@@ -60,6 +60,11 @@ class MainWindow(ttk.Frame):
         self.SPACE_CHORD = '            /            '
 
         self.DETAIL_ERROR = 'Please fill in the blank.'
+
+        self.LYRICS_KEY = "lyrics:"
+        self.CHORD_KEY = "chord_:"
+
+        self.dialog_open = False
 
 
     def Error(self,a_name, m_name,l_str,c_str):
@@ -91,9 +96,11 @@ class MainWindow(ttk.Frame):
         chord_str = self.text_chord.get('1.0', 'end-1c')
 
 
+        #Error check
         if self.Error(artist_name, music_name, lyrics_str, chord_str) == True:
             return
 
+        #new dir making
         file_list = os.listdir(self.MUSIC_DIR)
 
         for f in file_list:
@@ -103,6 +110,7 @@ class MainWindow(ttk.Frame):
         if artist_name not in artist_list:
             os.mkdir(self.MUSIC_DIR + '/' + artist_name)
 
+        #text fix
         save_dir = self.MUSIC_DIR + '/' + artist_name + '/'
 
         table = lyrics_str.maketrans({'\u3000':' '})
@@ -114,6 +122,8 @@ class MainWindow(ttk.Frame):
         lyrics_output = lyrics_str.split('\n')
         chord_output = chord_str.split('\n')
 
+
+        #file saving
         lyrics_list = []
         chord_list = []
         music_list = []
@@ -145,9 +155,9 @@ class MainWindow(ttk.Frame):
         file_name = music_name + '.txt'
 
         if file_name in music_list:
-            file_obj = open(save_dir+file_name,'w') #over write
+            file_obj = open(save_dir+file_name,'w') #overwrite save
         else:
-            file_obj = open(save_dir+file_name,'x') #new
+            file_obj = open(save_dir+file_name,'x') #Create new
 
         file_obj.writelines(lyrics_list)
         file_obj.writelines(chord_list)
@@ -156,7 +166,37 @@ class MainWindow(ttk.Frame):
 
 
     def LoadButton(self):
-        print('load')
+
+        lyrics_list = []
+        chord_list = []
+
+        file_name = filedialog.askopenfilename(
+                    
+                    title = "Music select",
+                    filetypes = [("Text",".txt")],
+                    initialdir = './music'
+                )
+
+        if file_name:
+            with open(file_name,encoding="utf_8") as tf:
+
+                for i, line in enumerate(tf):
+                    if line.find(self.LYRICS_KEY) >= 0:
+                        lyrics_list.append(line.strip('lyrics:'))
+                    elif line.find(self.CHORD_KEY) >= 0:
+                        chord_list.append(line.strip('chord_:'))
+
+            lyrics_str = ''.join(lyrics_list)  
+            chord_str = ''.join(chord_list)
+
+            self.text_lyrics.insert(1.0, lyrics_str)
+            self.text_chord.insert(1.0, chord_str)
+
+            print(file_name)
+
+        else:
+            pass
+
 
 
     def CreateWidget(self):
