@@ -191,20 +191,20 @@ class MainWindow(ttk.Frame):
 
         ''' Label '''
         #artist label
-        self.label_artist = ttk.Label(self.main_frame, text = 'Artist', font = ("",35), background = "black", foreground = "white")
-        self.label_artist.grid(row = 0, column = 0, columnspan = 2)
+        label_artist = ttk.Label(self.main_frame, text = 'Artist', font = ("",35), background = "black", foreground = "white")
+        label_artist.grid(row = 0, column = 0, columnspan = 2)
 
         #music name label
-        self.label_music_name = ttk.Label(self.main_frame, text = 'Music name', font = ("",35), background = "black", foreground = "white")
-        self.label_music_name.grid(row = 2, column = 0, columnspan = 2)
+        label_music_name = ttk.Label(self.main_frame, text = 'Music name', font = ("",35), background = "black", foreground = "white")
+        label_music_name.grid(row = 2, column = 0, columnspan = 2)
 
         #lyrics label
-        self.label_lyrics = ttk.Label(self.main_frame, text = 'Lyrics', font = ("",35), background = "black", foreground = "white")
-        self.label_lyrics.grid(row = 4, column = 0)
+        label_lyrics = ttk.Label(self.main_frame, text = 'Lyrics', font = ("",35), background = "black", foreground = "white")
+        label_lyrics.grid(row = 4, column = 0)
 
         #guitar chord label
-        self.label_lyrics = ttk.Label(self.main_frame, text = 'Chord', font = ("",35), background = "black", foreground = "white")
-        self.label_lyrics.grid(row = 4, column = 1)
+        label_lyrics = ttk.Label(self.main_frame, text = 'Chord', font = ("",35), background = "black", foreground = "white")
+        label_lyrics.grid(row = 4, column = 1)
 
 
         ''' Text '''
@@ -229,17 +229,27 @@ class MainWindow(ttk.Frame):
         self.text_chord.configure(font=f)
         self.text_chord.grid(row=5, column=1, padx = 10, pady = 10, sticky=(N, W, S, E))
 
+        ''' Scrollbar '''
+        scrollbar_lyrics = ttk.Scrollbar(self.main_frame)
+        self.text_lyrics['yscrollcommand'] = scrollbar_lyrics.set
+        scrollbar_lyrics.grid(row = 5, column = 2, padx = 3, pady = 10, sticky=(N,S)) 
+
+        scrollbar_chord = ttk.Scrollbar(self.main_frame)
+        self.text_chord['yscrollcommand'] = scrollbar_chord.set
+        scrollbar_chord.grid(row = 5, column = 3, padx = 3, pady = 10, sticky=(N,S)) 
+
+
         ''' Button '''
         #save_button
         button_style = ttk.Style()
         button_style.configure('ok.TButton',foreground='white',background='black')
-        self.volume_button = ttk.Button(self.main_frame, text = 'SAVE' ,width = 20, command = self.SaveButton,style='ok.TButton')
-        self.volume_button.grid(row = 6, column = 1, padx = 5, pady = 5, sticky = W)
+        volume_button = ttk.Button(self.main_frame, text = 'SAVE' ,width = 20, command = self.SaveButton,style='ok.TButton')
+        volume_button.grid(row = 6, column = 1, padx = 5, pady = 5, sticky = W)
 
         #read_button
         button_style.configure('read.TButton',foreground='white',background='black')
-        self.volume_button = ttk.Button(self.main_frame, text = 'LOAD' ,width = 20, command = self.LoadButton,style='read.TButton')
-        self.volume_button.grid(row = 6, column = 0, padx = 5, pady = 5, sticky = E)
+        volume_button = ttk.Button(self.main_frame, text = 'LOAD' ,width = 20, command = self.LoadButton,style='read.TButton')
+        volume_button.grid(row = 6, column = 0, padx = 5, pady = 5, sticky = E)
 
         self.master.mainloop()
         
