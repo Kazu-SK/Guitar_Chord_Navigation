@@ -206,6 +206,16 @@ class MainWindow(ttk.Frame):
         label_lyrics = ttk.Label(self.main_frame, text = 'Chord', font = ("",35), background = "black", foreground = "white")
         label_lyrics.grid(row = 4, column = 1)
 
+         
+        #scroll lyrics label
+        label_lyrics = ttk.Label(self.main_frame, text = 'L', font = ("",10), background = "black", foreground = "white")
+        label_lyrics.grid(row = 4, column = 2, sticky = S)
+
+        #scroll chord label
+        label_lyrics = ttk.Label(self.main_frame, text = 'C', font = ("",10), background = "black", foreground = "white")
+        label_lyrics.grid(row = 4, column = 3, sticky = S)
+        
+
 
         ''' Text '''
         f = Font(family='Helvetica', size=16)
@@ -232,11 +242,11 @@ class MainWindow(ttk.Frame):
         ''' Scrollbar '''
         scrollbar_lyrics = ttk.Scrollbar(self.main_frame)
         self.text_lyrics['yscrollcommand'] = scrollbar_lyrics.set
-        scrollbar_lyrics.grid(row = 5, column = 2, padx = 3, pady = 10, sticky=(N,S)) 
+        scrollbar_lyrics.grid(row = 5, column = 2, padx = 3, pady = 3, sticky=(N,S)) 
 
         scrollbar_chord = ttk.Scrollbar(self.main_frame)
         self.text_chord['yscrollcommand'] = scrollbar_chord.set
-        scrollbar_chord.grid(row = 5, column = 3, padx = 3, pady = 10, sticky=(N,S)) 
+        scrollbar_chord.grid(row = 5, column = 3, padx = 3, pady = 3, sticky=(N,S)) 
 
 
         ''' Button '''
