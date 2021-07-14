@@ -32,23 +32,23 @@ lyrics:君がうなずいて 僕らの心 満たされてく愛で   ぼくら�
 lyrics:途中で またこれから先も何十年続いていける
 lyrics:ような未来へ   (間奏)
 lyrics:(間奏)   
-lyrics:(間奏)   例えばほら 明日を
-lyrics:見失いそうに 僕らなったとしても、、、
-lyrics:2人寄り添って歩いて 永久の愛を形にして 
-lyrics:いつまでも君の横で笑っていたくて 
-lyrics:アリガトウや  Ah 愛してるじゃまだ足りないけど
-lyrics:せめて言わせて 「幸せです」と
-lyrics:うまく行かない日だって 2人で居れば晴れだって!
-lyrics:喜びや悲しみも 全て分け合える
-lyrics:君がいるから 生きていけるから!  だからいつも 
-lyrics:そばにいてよ 『愛しい君へ』 
+lyrics:例えばほら 明日を  見失い
+lyrics:そうに  僕らなったとしても、、、2人寄り添って
+lyrics:歩いて 永久の愛を形にして  いつまでも君の
+lyrics:横で笑っていたくて  アリガトウや   Ah
+lyrics:愛してるじゃまだ足りないけど せめて言わせて
+lyrics:「幸せです」と  うまく行かない日
+lyrics:だって 2人で居れば晴れだって!  喜びや
+lyrics:悲しみも 全て分け合える 君がいるから 
+lyrics:生きていけるから!  だからいつも そばに
+lyrics:いてよ 『愛しい君へ』 
 lyrics:最後の一秒
 lyrics:まで
-lyrics:(間奏)
-lyrics:(間奏)     明日、今日より
+lyrics:(間奏)     明日、今日より 
 lyrics:笑顔になれる   君がいるだけで 
-lyrics:そう思えるから  何十年 何百年 何千年 時を超えよう 
-lyrics:君を愛してる
+lyrics:そう思えるから  何十年 何百年 何千年 
+lyrics:時を超えよう  君を愛してる
+lyrics:
 chord_:C      G      /Am      Em      /
 chord_:F      C      /F      G      /
 chord_:C      G      /Am      Em      /
@@ -56,7 +56,7 @@ chord_:F      G      /C            /
 chord_:C      E7      /Am      Em      /
 chord_:F      C      /F      G      /
 chord_:C      E7      /Am      Em      /
-chord_:F      Fm      /G            /
+chord_:F      Fm      /C            /
 chord_:Am      Em      /F   G    C      /
 chord_:F      C      /G            /
 chord_:Am      Em      /F   G    C      /
@@ -68,7 +68,7 @@ chord_:Am      Em      /F   G    C      /
 chord_:C      E7      /Am      Em      /
 chord_:F      C      /F      G      /
 chord_:C      E7      /Am      Em      /
-chord_:F      Fm      /G            /
+chord_:F      Fm      /C            /
 chord_:Am      Em      /F   G    C      /
 chord_:F      C      /G            /
 chord_:Am      Em      /F   G    C      /
@@ -81,22 +81,22 @@ chord_:      C      /      G      /
 chord_:      Am      /      F      /
 chord_:      C      /      G      /
 chord_:G            /      G#   G /
-chord_:/Fm   G   /Am      Em      /
-chord_:F   G    C      /Am      Em      /
-chord_:F   G    C      /Am      Em      /
-chord_:F   G    C      /Am      Em      /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   C       /
-chord_:Am      Em      /F   G   F       / 
-chord_:     C      /       G       / 
-chord_:     Am      /      F       /
-chord_:      Fm      /      C      / 
-chord_:E7      Am       /Em      F      /
-chord_:C      F      /G      C      /
-chord_:E7      Am       /Em      F      /
-chord_:Fm      G      /
+chord_:/Fm   G   Am      /Em      F   G   /
+chord_:C      Am      /Em      F   G   /
+chord_:C      Am      /Em      F   G   /
+chord_:C      Am      /Em      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /C      Am      /
+chord_:Em      F   G   /F            /
+chord_:C            /G            /
+chord_:Am            /F            /
+chord_:Fm            /C      E7      /
+chord_:Am      Em      /F      C      /
+chord_:F      G      /C      E7      /
+chord_:Am      Em      /F      Fm      /
+chord_:G            /            /
