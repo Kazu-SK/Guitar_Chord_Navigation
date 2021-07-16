@@ -54,19 +54,24 @@ class Music():
 
         music_file = self.MUSIC_DIR+'/'+artist_name+'/'+music_name+'.txt'
 
-        with open(music_file,encoding="utf-8") as tf:
+        try:
+            with open(music_file,encoding="utf-8") as tf:
 
-            for i, line in enumerate(tf):
+                for i, line in enumerate(tf):
 
-                if line.find(self.LYRICS_KEY) >= 0:
-                    self.lyrics_list.append(line.strip('lyrics:,\n'))
-                elif line.find(self.CHORD_KEY) >= 0:
-                    self.chord_list.append(line.strip('chord_:,\n'))
+                    if line.find(self.LYRICS_KEY) >= 0:
+                        self.lyrics_list.append(line.strip('lyrics:,\n'))
+                    elif line.find(self.CHORD_KEY) >= 0:
+                        self.chord_list.append(line.strip('chord_:,\n'))
+        except:
+            return False
 
 
         self.lyrics_end_num = len(self.lyrics_list)-1
 
         tf.close()
+
+        return True
 
 
     def TransposeScale(self,trans_code):

@@ -31,7 +31,7 @@ class MainWindow(ttk.Frame):
 
         self.Config()
 
-        master.title('lyrics_and_chord')
+        master.title('Guitar_chord and lyrics Navigation')
         master["bg"] = "black"
 
         frame_style = ttk.Style()
@@ -86,7 +86,7 @@ class MainWindow(ttk.Frame):
 
         self.proofreading_file = open("proofreading.txt","+r")
         self.proofreading_metronome = float(self.proofreading_file.read()) 
-        self.proofreading_file.truncate(0)
+        #self.proofreading_file.truncate(0)
         self.proofreading_file.close()
 
         print(self.proofreading_metronome)
@@ -137,7 +137,9 @@ class MainWindow(ttk.Frame):
         for i in self.lb_music.curselection():
             self.music_name = self.lb_music.get(i)
 
-        self.music_obj.GetMusicinfo(self.artist_name,self.music_name)
+        
+        if self.music_obj.GetMusicinfo(self.artist_name,self.music_name) != True:
+            return 
 
         self.display_line_upper = 0
         self.display_line_lower = 1
@@ -416,8 +418,9 @@ class MainWindow(ttk.Frame):
         self.volume_on = False
         self.working_app = False
 
-        self.proofreading_file = open("proofreading.txt","a")
+        self.proofreading_file = open("proofreading.txt","w")
 
+        #self.proofreading_file.truncate(0)
         self.proofreading_file.write(str(self.proofreading_metronome))
         self.proofreading_file.close()
 
