@@ -37,7 +37,7 @@ class MainWindow(ttk.Frame):
 
     def Config(self):
         self.MUSIC_DIR = os.path.abspath("music/")
-        self.SPACE_CHORD = '            /            '
+        self.SPACE_CHORD = '     ------     '
 
         self.DETAIL_ERROR = 'Please fill in the blank.'
 
@@ -213,17 +213,17 @@ class MainWindow(ttk.Frame):
         label_lyrics.grid(row = 4, column = 0)
 
         #guitar chord label
-        label_lyrics = ttk.Label(self.main_frame, text = 'Chord', font = ("",35), background = "black", foreground = "white")
-        label_lyrics.grid(row = 4, column = 1)
+        label_chord = ttk.Label(self.main_frame, text = 'Chord', font = ("",35), background = "black", foreground = "white")
+        label_chord.grid(row = 4, column = 1)
 
          
         #scroll lyrics label
-        label_lyrics = ttk.Label(self.main_frame, text = 'L', font = ("",10), background = "black", foreground = "white")
-        label_lyrics.grid(row = 4, column = 2, sticky = S)
+        label_l_scroll = ttk.Label(self.main_frame, text = 'L', font = ("",10), background = "black", foreground = "white")
+        label_l_scroll.grid(row = 4, column = 2, sticky = S)
 
         #scroll chord label
-        label_lyrics = ttk.Label(self.main_frame, text = 'C', font = ("",10), background = "black", foreground = "white")
-        label_lyrics.grid(row = 4, column = 3, sticky = S)
+        label_c_scroll = ttk.Label(self.main_frame, text = 'C', font = ("",10), background = "black", foreground = "white")
+        label_c_scroll.grid(row = 4, column = 3, sticky = S)
         
 
 
