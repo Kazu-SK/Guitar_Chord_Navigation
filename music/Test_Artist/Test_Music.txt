@@ -1,34 +1,32 @@
-lyrics:C      G      /Am      F      /
-lyrics:C      G      /Am      F      /
-lyrics:C      G      /Am      F      /
-lyrics:C      G      /Am      F      /
-lyrics:C            /G            /
-lyrics:Am            /Em            /
-lyrics:F            /C            /
-lyrics:F            /G            /
-lyrics:C            /G            /
-lyrics:Am            /Em            /
-lyrics:F      G      /C      Am      /
-lyrics:F      G      /C            /
-lyrics:C   G   Am      /Em      F      /
-lyrics:C      Am      /Em      F      /
-lyrics:C      Am      /Em      F      /
-lyrics:C      Am      /Em      F G    /
-lyrics:C            /            /      
-chord_:(イントロ)
-chord_:(イントロ)
-chord_:(イントロ)
-chord_:(イントロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(Aメロ)
-chord_:(サビ)
-chord_:(サビ)
-chord_:(サビ)
-chord_:(サビ)
-chord_:(サビ)
+lyrics:(イントロ)
+lyrics:(イントロ)
+lyrics:(イントロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(Aメロ)
+lyrics:(サビ)
+lyrics:(サビ)
+lyrics:(サビ)
+lyrics:(サビ)
+lyrics:(サビ)
+chord_:C      G      /Am      F      /
+chord_:C      G      /Am      F      /
+chord_:C      G      /Am      F      /
+chord_:C            /G            /
+chord_:Am            /Em            /
+chord_:F            /C            /
+chord_:F            /G            /
+chord_:C            /G            /
+chord_:Am            /Em            /
+chord_:F      G      /C      Am      /
+chord_:F      G      /C            /
+chord_:C   G   Am      /Em      F      /
+chord_:C      Am      /Em      F      /
+chord_:C      Am      /Em      F      /
+chord_:C      Am      /Em      F G    /
+chord_:C            /            / 

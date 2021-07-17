@@ -114,6 +114,8 @@ class MainWindow(ttk.Frame):
         for chord_lines ,chord in enumerate(chord_output):
             chord_list.append('chord_:'+chord+'\n')
 
+        
+
 
         if lyrics_lines > chord_lines:
             for i in range(lyrics_lines-chord_lines):
@@ -166,6 +168,14 @@ class MainWindow(ttk.Frame):
                     elif line.find(self.CHORD_KEY) >= 0:
                         chord_list.append(line.strip('chord_:'))
 
+            #delete '\n'
+            table = lyrics_list[-1].maketrans({'\n':''})
+            lyrics_list[-1] = lyrics_list[-1].translate(table)
+
+            table = chord_list[-1].maketrans({'\n':''})
+            chord_list[-1] = chord_list[-1].translate(table)
+            
+            #translate list -> str
             lyrics_str = ''.join(lyrics_list)  
             chord_str = ''.join(chord_list)
 
