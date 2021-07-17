@@ -308,7 +308,7 @@ class MainWindow(ttk.Frame):
             self.loop_count = 0
             self.scroll_flag = False
 
-            self.button_style.configure('m.TButton',foreground='white')
+            self.metronome_button_style.configure('m.TButton',foreground='white')
             self.label_tempo.configure(foreground='#00ff00')
             self.play_button_style.configure('p.TButton',foreground='green',background='black')
             self.metronome_thread = threading.Thread(target=self.TempoSound)
@@ -524,11 +524,11 @@ class MainWindow(ttk.Frame):
         proofreading_button_style = ttk.Style()
 
         proofreading_button_style.configure('pf_m.TButton',foreground='white',background='black')
-        proofreading_minus_button = ttk.Button(self.main_frame, text = 'PF -' , command = self.PFminus,width = 20,style='pf_m.TButton')
+        proofreading_minus_button = ttk.Button(self.main_frame, text = 'PR -' , command = self.PFminus,width = 20,style='pf_m.TButton')
         proofreading_minus_button.grid(row = 5, column = 6, padx = 5, pady = 5, sticky =(N,E,W,S))
 
         proofreading_button_style.configure('pf_p.TButton',foreground='white',background='black')
-        proofreading_plus_button = ttk.Button(self.main_frame, text = 'PF +' , command = self.PFplus,width = 20,style='pf_p.TButton')
+        proofreading_plus_button = ttk.Button(self.main_frame, text = 'PR +' , command = self.PFplus,width = 20,style='pf_p.TButton')
         proofreading_plus_button.grid(row = 5, column = 7, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
