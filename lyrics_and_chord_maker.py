@@ -114,9 +114,6 @@ class MainWindow(ttk.Frame):
         for chord_lines ,chord in enumerate(chord_output):
             chord_list.append('chord_:'+chord+'\n')
 
-        
-
-
         if lyrics_lines > chord_lines:
             for i in range(lyrics_lines-chord_lines):
                 chord_list.append('chord_:'+self.SPACE_CHORD+'\n')
@@ -133,13 +130,12 @@ class MainWindow(ttk.Frame):
             if os.path.isfile(os.path.join(self.MUSIC_DIR+'/'+artist_name+'/',f)) == True:
                 music_list.append(f)
 
-
         file_name = music_name + '.txt'
 
         if file_name in music_list:
-            file_obj = open(save_dir+file_name,'w') #overwrite save
+            with open(save_dir+file_name,'w') as file_obj #overwrite save
         else:
-            file_obj = open(save_dir+file_name,'x') #Create new
+            with open(save_dir+file_name,'x') as file_obj #Create new
 
         file_obj.writelines(lyrics_list)
         file_obj.writelines(chord_list)
