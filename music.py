@@ -16,6 +16,8 @@ class Music():
 
         self.Config()
 
+        self.scale_num = 0
+
         self.trans_scale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
 
 
@@ -74,6 +76,18 @@ class Music():
         return True
 
 
+    def InitializeScale(self):
+
+        self.trans_scale = ['C','C#','D','D#','E','F','F#','G','G#','A','A#','B']
+        self.scale_num = 0
+
+    
+    def LimitScalenum(self):
+        
+        if self.scale_num >= len(self.trans_scale) or self.scale_num <= -len(self.trans_scale):
+            self.scale_num = 0
+
+
     def TransposeScale(self,trans_code):
 
         if trans_code == 'plus':
@@ -85,6 +99,10 @@ class Music():
 
             self.trans_scale[len(self.trans_scale)-1] = tmp
 
+            self.scale_num = self.scale_num + 1
+            self.LimitScalenum()
+
+
         elif trans_code == 'minus':
             tmp = self.trans_scale[len(self.trans_scale)-1]  
 
@@ -92,6 +110,9 @@ class Music():
                self.trans_scale[i] = self.trans_scale[i-1]
 
             self.trans_scale[0] = tmp
+
+            self.scale_num = self.scale_num - 1
+            self.LimitScalenum()
 
         else:
             print('error TransposeChord')
@@ -140,6 +161,9 @@ class Music():
 
         return trans_chord
 
+
+    def GetScalenum(self):
+        return self.scale_num
 
     def GetLyricsEndnum(self):
         return self.lyrics_end_num
