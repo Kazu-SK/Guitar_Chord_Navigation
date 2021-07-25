@@ -133,9 +133,9 @@ class MainWindow(ttk.Frame):
         file_name = music_name + '.txt'
 
         if file_name in music_list:
-            with open(save_dir+file_name,'w') as file_obj #overwrite save
+            file_obj = open(save_dir+file_name,'w') #overwrite save
         else:
-            with open(save_dir+file_name,'x') as file_obj #Create new
+            file_obj = open(save_dir+file_name,'x') #Create new
 
         file_obj.writelines(lyrics_list)
         file_obj.writelines(chord_list)
