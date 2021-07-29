@@ -91,7 +91,6 @@ class MainWindow(ttk.Frame):
 
         print(self.proofreading_metronome)
 
-
         #lyrics and chord scroll
         self.lyrics_num = [0, 1]
         self.loop_count = 0
@@ -216,7 +215,6 @@ class MainWindow(ttk.Frame):
 
 
     def NavigateScore(self):
-
 
         self.loop_count = self.loop_count + 1
 
