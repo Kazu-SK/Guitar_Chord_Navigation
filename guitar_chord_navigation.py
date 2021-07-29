@@ -202,7 +202,6 @@ class MainWindow(ttk.Frame):
             self.label_lyrics_lower.update()
 
 
-
     def value_changed(self,*args):
 
         self.level_tempo = int(self.myval.get())
