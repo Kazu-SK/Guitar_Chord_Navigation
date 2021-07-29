@@ -86,10 +86,7 @@ class MainWindow(ttk.Frame):
 
         self.proofreading_file = open("proofreading.txt","+r")
         self.proofreading_metronome = float(self.proofreading_file.read()) 
-        #self.proofreading_file.truncate(0)
         self.proofreading_file.close()
-
-        print(self.proofreading_metronome)
 
         #lyrics and chord scroll
         self.lyrics_num = [0, 1]
