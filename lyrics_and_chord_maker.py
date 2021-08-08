@@ -39,7 +39,8 @@ class MainWindow(ttk.Frame):
         self.MUSIC_DIR = os.path.abspath("music/")
         self.SPACE_CHORD = '     ------     '
 
-        self.DETAIL_ERROR = 'Please fill in the blank.'
+        self.BLANK_ERROR_DETAIL = 'Please fill in the blank.'
+        self.FLAT_ERROR_DETAIL = 'Please use sharp instead of flat.\n♭ : ×\n# : ○'
 
         self.LYRICS_KEY = "lyrics:"
         self.CHORD_KEY = "chord_:"
@@ -49,20 +50,37 @@ class MainWindow(ttk.Frame):
 
     def Error(self,a_name, m_name,l_str,c_str):
 
-        def error_window():
+        def blank_error_window():
             error_win = tk.Toplevel()
             error_win.geometry("300x100")
 
             label_error = tk.Label(error_win, text="Error", font = ("",30), foreground = "red")
             label_error.pack()
-            label_detail = tk.Label(error_win, text=self.DETAIL_ERROR, font = ("",20))
+            label_detail = tk.Label(error_win, text=self.BLANK_ERROR_DETAIL, font = ("",20))
+            label_detail.pack()
+
+        def flat_error_window():
+            error_win = tk.Toplevel()
+            error_win.geometry("500x200")
+
+            label_error = tk.Label(error_win, text="Error", font = ("",30), foreground = "red")
+            label_error.pack()
+            label_detail = tk.Label(error_win, text=self.FLAT_ERROR_DETAIL, font = ("",20))
             label_detail.pack()
 
 
         if a_name == '' or m_name == '' or l_str == '' or c_str == '':
-            error_window()
+            blank_error_window()
 
             return True 
+
+        if '♭' in c_str:
+            flat_error_window()
+
+            return True 
+
+        print(c_str)
+
 
         return False
 
