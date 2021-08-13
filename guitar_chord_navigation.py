@@ -111,7 +111,7 @@ class MainWindow(ttk.Frame):
         self.LABEL_BEAT = 'Beat'
 
         self.LABEL_PLAY = 'Play'
-        self.LABEL_INTERVAL = 'Intereval'
+        self.LABEL_INTERVAL = 'Interval'
         self.LABEL_STOP = 'Stop'
         self.LABEL_END = 'End'
 
@@ -129,6 +129,9 @@ class MainWindow(ttk.Frame):
 
 
     def SelectMusic(self):
+
+        if self.sound_status == Sound.PLAY_STATUS: 
+            return
 
         for i in self.lb_music.curselection():
             self.music_name = self.lb_music.get(i)
