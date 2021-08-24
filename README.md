@@ -48,6 +48,7 @@ python3 lyrics_and_chord_maker.py
 - 「Beat」コンボボックスで拍子を設定する。
 - 「metronome_test」ボタンは、メトロノームのテンポを確認するために使用する。このボタンによってメトロノームを始動させた場合は、再生状態の表示はIntervalで固定され、Playには移行しない。
 
+
 ## Guitar_Chord_Navigation
 ###Load
 1. Loadボタンで曲を選択する。
