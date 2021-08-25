@@ -1,5 +1,9 @@
 # Guitar_Chord_Navigation
+![2021-07-25-110458_1920x1012_scrot](https://user-images.githubusercontent.com/61465092/130795013-3387e9f6-554b-40b3-bee1-8ccca8689f2f.png)
+![2021-07-25-110847_1920x1012_scrot](https://user-images.githubusercontent.com/61465092/130794739-8cf0e5a7-5651-40d4-b288-2220e158b8f7.png)
 
+
+# 
 
 # 環境
 * Python 3.8.1
@@ -49,14 +53,16 @@ python3 lyrics_and_chord_maker.py
 - 「metronome_test」ボタンは、メトロノームのテンポを確認するために使用する。このボタンによってメトロノームを始動させた場合は、再生状態の表示はIntervalで固定され、Playには移行しない。
 
 
-## Guitar_Chord_Navigation
-###Load
+## Lyrics_and_chord_maker
+### Load
 1. Loadボタンで曲を選択する。
 2. Lyrics,Chordが読み込まれるので編集を行う。
 
-###Save
+### Save
 - 既存のアーティスト名、曲名の組み合わせがある場合は上書き保存される。
 - ない場合は新規で保存される。
 
-###Error
+### Error
 - Artist,Music name,Lyrics,Chordのいずれかのテキストボックスが未入力の場合は、Errorが出力される。
+
+![2021-08-04-210014_300x100_scrot](https://user-images.githubusercontent.com/61465092/130794464-6eea9d4c-ccfa-472f-afb1-e5713e74dd98.png)
