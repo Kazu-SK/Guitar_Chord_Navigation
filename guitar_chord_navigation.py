@@ -3,7 +3,7 @@
 from tkinter import *
 from tkinter import ttk
 
-from enum import Enum
+from enum import Enum, auto
 
 import threading
 
