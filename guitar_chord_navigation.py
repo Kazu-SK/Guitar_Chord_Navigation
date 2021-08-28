@@ -218,7 +218,7 @@ class MainWindow(ttk.Frame):
         self.loop_count = self.loop_count + 1
 
         if self.sound_status == Sound.PLAY_STATUS and self.scroll_flag == True and self.loop_count >= 2:
-            self.PlayBack('next')
+            self.PlayBack('next','scroll')
             self.loop_count = 0
         else:
             if self.scroll_flag == True:
@@ -275,6 +275,7 @@ class MainWindow(ttk.Frame):
                 #print(float(wait_timer))
 
     def MetronomeTest(self):
+## Guitar_Chord_Navigation
 
         if self.sound_status == Sound.NONE_STATUS or self.sound_status == Sound.TEST_STATUS:
             if self.button_status == False:
@@ -369,7 +370,11 @@ class MainWindow(ttk.Frame):
         self.label_scale_num.update()
 
 
-    def PlayBack(self, playback_code):
+    def PlayBack(self, playback_code, job_code):
+
+        if self.sound_status == Sound.PLAY_STATUS and job_code == 'hand':
+            return
+
 
         if playback_code == 'back':
             if self.playback_status == Playback.END_POSITION:
@@ -593,11 +598,11 @@ class MainWindow(ttk.Frame):
         self.label_play_display.grid(row = 4, column = 3, columnspan=4)
 
         button_style.configure('pll.TButton',foreground='white',background='black')
-        playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack('back'),style='pll.TButton')
+        playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack('back','hand'),style='pll.TButton')
         playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         button_style.configure('plr.TButton',foreground='white',background='black')
-        playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack('next'),style='plr.TButton')
+        playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack('next','hand'),style='plr.TButton')
         playback_right_button.grid(row = 2, column = 7, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
