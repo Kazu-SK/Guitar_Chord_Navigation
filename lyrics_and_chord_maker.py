@@ -79,8 +79,6 @@ class MainWindow(ttk.Frame):
 
             return True 
 
-        print(c_str)
-
 
         return False
 
