@@ -13,16 +13,26 @@ import music as m
 
 
 class Sound(Enum):
-    NONE_STATUS = 0
-    TEST_STATUS = 1
-    PLAY_STATUS = 2
+    NONE_STATUS = auto()
+    TEST_STATUS = auto() 
+    PLAY_STATUS = auto() 
 
 
 class Playback(Enum):
     #playback
-    START_POSITION = 0 
-    MIDWAY_POSITION = 1 
-    END_POSITION = 2 
+    START_POSITION = auto() 
+    MIDWAY_POSITION = auto() 
+    END_POSITION = auto() 
+
+    #job
+    HAND = auto()
+    SCROLL = auto() 
+
+    #scroll
+    BACK = auto() 
+    NEXT = auto() 
+
+
 
 
 class MainWindow(ttk.Frame):
@@ -218,7 +228,7 @@ class MainWindow(ttk.Frame):
         self.loop_count = self.loop_count + 1
 
         if self.sound_status == Sound.PLAY_STATUS and self.scroll_flag == True and self.loop_count >= 2:
-            self.PlayBack('next','scroll')
+            self.PlayBack(Playback.NEXT,Playback.SCROLL)
             self.loop_count = 0
         else:
             if self.scroll_flag == True:
@@ -372,11 +382,11 @@ class MainWindow(ttk.Frame):
 
     def PlayBack(self, playback_code, job_code):
 
-        if self.sound_status == Sound.PLAY_STATUS and job_code == 'hand':
+        if self.sound_status == Sound.PLAY_STATUS and job_code == Playback.HAND:
             return
 
 
-        if playback_code == 'back':
+        if playback_code == Playback.BACK:
             if self.playback_status == Playback.END_POSITION:
                 self.playback_status = Playback.MIDWAY_POSITION
                 self.yellow_display_num = self.yellow_display_num - 1
@@ -389,7 +399,7 @@ class MainWindow(ttk.Frame):
                 self.playback_status = Playback.START_POSITION
             else:
                 return
-        elif playback_code == 'next':
+        elif playback_code == Playback.NEXT:
             if self.lyrics_num[1] != self.music_obj.GetLyricsEndnum():
                 self.lyrics_num[0] = self.lyrics_num[1]
                 self.lyrics_num[1] = self.lyrics_num[1] + 1
@@ -598,11 +608,11 @@ class MainWindow(ttk.Frame):
         self.label_play_display.grid(row = 4, column = 3, columnspan=4)
 
         button_style.configure('pll.TButton',foreground='white',background='black')
-        playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack('back','hand'),style='pll.TButton')
+        playback_left_button = ttk.Button(self.main_frame, text = '◀', command = lambda:self.PlayBack(Playback.BACK,Playback.HAND),style='pll.TButton')
         playback_left_button.grid(row = 2, column = 2, padx = 5, pady = 5, sticky = (N,E,W,S))
 
         button_style.configure('plr.TButton',foreground='white',background='black')
-        playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack('next','hand'),style='plr.TButton')
+        playback_right_button = ttk.Button(self.main_frame, text = '▶', command = lambda:self.PlayBack(Playback.NEXT,Playback.HAND),style='plr.TButton')
         playback_right_button.grid(row = 2, column = 7, padx = 5, pady = 5, sticky = (N,E,W,S))
 
 
