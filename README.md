@@ -3,8 +3,6 @@
 ![2021-07-25-110847_1920x1012_scrot](https://user-images.githubusercontent.com/61465092/130794739-8cf0e5a7-5651-40d4-b288-2220e158b8f7.png)
 
 
-# 
-
 # 環境
 * Python 3.8.1
 * pygame 1.9.6
