@@ -146,9 +146,17 @@ class MainWindow(ttk.Frame):
         for i in self.lb_music.curselection():
             self.music_name = self.lb_music.get(i)
 
+        print(self.artist_name)
+        print(self.music_name)
         
         if self.music_obj.GetMusicinfo(self.artist_name,self.music_name) != True:
-            return 
+            #print(self.lb_music)
+            self.music_list = self.music_obj.MusicList(self.artist_name)
+            self.music_name = self.music_list[0]
+            self.music_obj.GetMusicinfo(self.artist_name,self.music_name)
+            #print("aa")
+            print(self.music_name)
+            #return 
 
         self.display_line_upper = 0
         self.display_line_lower = 1
@@ -479,7 +487,7 @@ class MainWindow(ttk.Frame):
                 '''
         self.lb_music.grid(row=2, column=0, rowspan = 3, padx = 5, pady = 5,sticky=(N,E,W,S))
 
-        # Music_Scrollbar
+        # Music_Scrollbar 
         music_scrollbar = ttk.Scrollbar(
             self.main_frame, 
             orient=VERTICAL, 
